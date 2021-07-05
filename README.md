@@ -1,3 +1,7 @@
 # chess-attention
 
-Código fonte do meu trabalho de mestrado.
+This is a public repository for my master research work.
+
+Dataset's can be found at Google Drive throug the link below:
+https://drive.google.com/drive/folders/1PHTbbP-QrDKC4hjz55EHyredKVGBq4OZ?usp=sharing
+
