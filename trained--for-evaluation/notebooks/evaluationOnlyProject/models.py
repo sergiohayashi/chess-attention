@@ -3,6 +3,13 @@
 # https://colab.research.google.com/notebooks/gpu.ipynb#scrollTo=sXnDmXR7RDr2
 #
 
+#
+# remote: Resolving deltas: 100% (3/3), completed with 2 local objects.
+# remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+# remote: warning: See http://git.io/iEPt8g for more information.
+# remote: warning: File trained--for-evaluation/notebooks/best_checkpoint/1006/checkpoints/train/ckpt-48.data-00000-of-00001 is 66.23 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+#
+
 import tensorflow as tf
 import numpy as np
 
