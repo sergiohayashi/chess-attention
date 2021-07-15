@@ -1,5 +1,6 @@
 from models import AttentionEncoderDecoderModel
-
+import zipfile
+import os
 from predictor import Predictor
 from trainer import TrainerController
 
@@ -64,8 +65,16 @@ class ModelPredictController:
         pass
 
 
-def uncompressToFolder(param):
-    pass
+def uncompressToFolder(zipFile, uncompressFolder):
+
+    if os.path.isdir( uncompressFolder):
+        print( uncompressFolder, ' already exists. Skip uncompress..')
+        return
+
+    print('unzipping ', zipFile, ' to ', uncompressFolder)
+    with zipfile.ZipFile(zipFile, 'r') as zip_ref:
+        zip_ref.extractall(uncompressFolder)
+    print('unzipping ', zipFile, ' to ', uncompressFolder, ' done!')
 
 
 class ModelTrainController:
@@ -82,18 +91,20 @@ class ModelTrainController:
 
     def train(self, trainName, datasetZipFile):
         # uncompress for train
-        uncompressFolder = '../train/tmp/' + datasetZipFile.replace('.zip', '')
+        uncompressFolder = '../train-folder/tmp/' + os.path.basename(datasetZipFile).replace('.zip', '')
         uncompressToFolder(datasetZipFile, uncompressFolder)
 
-        # trainer sessin
+        # trainer session
         trainer = TrainerController(self.model)
 
         # prepare dataset
         trainer.prepareFilesForTrain(uncompressFolder)
 
-        loss, accuracy, epoch = trainer.trainUntil(0.1, 200)
+        loss, accuracy, epoch = trainer.trainUntil(0.1, 10)
 
+        '''
         self.model.steps.saveCheckpointTo('../train/checkpoints/' + trainName)
+        '''
 
     def save():
         pass

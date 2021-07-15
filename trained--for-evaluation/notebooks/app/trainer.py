@@ -19,6 +19,7 @@ class TrainerController:
         self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
 
         self.BATCH_SIZE = 32
+        self.BUFFER_SIZE = 1000
         self.train_dataset = None
         self.valid_dataset = None
         self.train_num_steps = None
@@ -33,16 +34,21 @@ class TrainerController:
 
     def prepareFilesForTrain(self, folder):
         # load test data
+        print('loading train data...');
         train_img_names, train_label_indexes, train_label_words = DataHelper.load_data_from(
-            folder, self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+            folder+'/train', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+        print('loading valid data...');
         valid_img_names, valid_label_indexes, valid_label_words = DataHelper.load_data_from(
-            folder, self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
+            folder+'/valid', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
 
         # build cache
-        DataHelper.build_cache_for(train_img_names)
-        DataHelper.build_cache_for(valid_img_names)
+        print('building cache for train data...');
+        # DataHelper.build_cache_for(self.model, train_img_names)
+        print('building cache for valid data...');
+        # DataHelper.build_cache_for(self.model, valid_img_names)
 
         # build dataset
+        print('building final dataset...');
         self.train_dataset = DataHelper.build_dataset(self.model, train_img_names, train_label_indexes,
                                                       self.BUFFER_SIZE, self.BATCH_SIZE)
         self.valid_dataset = DataHelper.build_dataset(self.model, valid_img_names, valid_label_indexes,
@@ -50,9 +56,10 @@ class TrainerController:
 
         self.train_num_steps = len(train_img_names) // self.BATCH_SIZE
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
+        print('building final dataset done');
 
     def trainUntil(self, target_loss, max_epoch):
-        self.train_more(target_loss, max_epoch,
+        self.train_more(max_epoch, target_loss,
                         self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps)
 
     def train_more(self, MAX_EPOCH, loss_target, train_dataset, valid_dataset,
@@ -71,7 +78,7 @@ class TrainerController:
             # training loop
             #
             for (batch, (img_tensor, target)) in enumerate(train_dataset):
-                batch_loss, t_loss = self.model.train_step(img_tensor, target, train_length)
+                batch_loss, t_loss = self.model.steps.train_step(img_tensor, target, train_length)
                 total_loss += t_loss
 
                 if batch % 50 == 0:
@@ -88,7 +95,7 @@ class TrainerController:
             #
             valid_total_loss = 0
             for (batch, (img_tensor, target)) in enumerate(valid_dataset):
-                batch_loss, t_loss = self.model.test_step(img_tensor, target, train_length)
+                batch_loss, t_loss = self.model.steps.test_step(img_tensor, target, train_length)
                 valid_total_loss += t_loss
             valid_loss = valid_total_loss / valid_num_steps
             self.loss_plot_valid.append(valid_loss)
@@ -122,6 +129,7 @@ class TrainerController:
 class DataHelper:
     @staticmethod
     def load_data_from(path, tokenizer, SAMPLED):
+        print('loading data from ', path)
         image_files = glob(os.path.join(path, 'images/*.jpg'))
         image_files.sort()
 
@@ -136,7 +144,7 @@ class DataHelper:
 
         # somente uma parte por enquanto
         if SAMPLED:
-            n = int(len(image_files) * 0.50)
+            n = int(len(image_files) * 0.10)
             combined = list(zip(image_files, labels))
             random.Random(0).shuffle(combined)
             image_files[:], labels[:] = zip(*combined[:n])

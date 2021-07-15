@@ -19,8 +19,8 @@ def predict():
 def train():
     model = ModelTrainController();
     model.load()
-    model.initTrainSession()
-    model.train('test-fly', "../train/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip")
+    # model.initTrainSession()
+    model.train('test-fly', "../train-folder/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip")
 
 
 if __name__ == '__main__':
