@@ -25,7 +25,7 @@ from trainer import TrainerController
 '''
 
 
-class ModelPredictionController:
+class ModelPredictController:
 
     def __init__(self):
         self.bestCheckpointPath = 'C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks' \
@@ -81,10 +81,9 @@ class ModelTrainController:
         pass
 
     def train(self, trainName, datasetZipFile):
-
         # uncompress for train
-        uncompressFolder = './tmp/' + datasetZipFile.replace('.zip', '')
-        uncompressToFolder( datasetZipFile, uncompressFolder)
+        uncompressFolder = '../train/tmp/' + datasetZipFile.replace('.zip', '')
+        uncompressToFolder(datasetZipFile, uncompressFolder)
 
         # trainer sessin
         trainer = TrainerController(self.model)
@@ -94,7 +93,7 @@ class ModelTrainController:
 
         loss, accuracy, epoch = trainer.trainUntil(0.1, 200)
 
-        self.model.steps.saveCheckpointTo('../checkpoints/' + trainName)
+        self.model.steps.saveCheckpointTo('../train/checkpoints/' + trainName)
 
     def save():
         pass

@@ -1,10 +1,13 @@
+from model_controller import ModelPredictController, ModelTrainController
+
+
 # This is a sample Python script.
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 def predict():
-    model = ModelController();
+    model = ModelPredictController();
     model.load()
     # model.model.print_summary()
     model.restoreFromBestCheckpoint()
@@ -14,13 +17,13 @@ def predict():
 
 
 def train():
-    pass
-
-
+    model = ModelTrainController();
+    model.load()
+    model.initTrainSession()
+    model.train('test-fly', "../train/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip")
 
 
 if __name__ == '__main__':
-    from model_controller import ModelController
     print('PyCharm')
     # predict()
     train()

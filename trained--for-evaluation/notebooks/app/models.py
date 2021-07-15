@@ -244,9 +244,7 @@ class Steps:
     def load_image(image_path):
         img = tf.io.read_file(image_path)
         img = tf.image.decode_jpeg(img, channels=3)
-        img = tf.image.resize(img, (200, 862))  # (450, 339))  #original=(576, 678, 3)
-        # img = tf.image.resize(img, (540, 407)) #(450, 339))  #original=(576, 678, 3)
-        # img = tf.keras.applications.inception_v3.preprocess_input(img)
+        img = tf.image.resize(img, (200, 862))
         img = tf.keras.applications.vgg19.preprocess_input(img)
         return img, image_path
 
