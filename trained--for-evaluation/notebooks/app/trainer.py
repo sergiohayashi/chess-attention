@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+import utils
+
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
 import numpy as np
@@ -10,39 +12,50 @@ import random
 
 print(tf.__version__)
 
-class Trainer:
 
-    def __init__(self):
+class TrainerController:
+
+    def __init__(self, model):
+        self.model = model
         self.train_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
         self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
+
+        self.BATCH_SIZE = 32
+        self.train_dataset = None
+        self.valid_dataset = None
+        self.train_num_steps = None
+        self.valid_num_steps = None
+
         self.loss_plot_train = []
         self.loss_plot_valid = []
         self.acc_plot_train = []
         self.acc_plot_valid = []
 
-    def train(self, model, target):
+        self._epoch = 0
+
+    def prepareFilesForTrain(self, folder):
         # load test data
-        train_img_names, train_label_indexes, train_label_words = DataLoader(model.tokenizer).load_data_from(
-            '/content/dataset-v035--2lines-32k-v5.1.1/train')
-        valid_img_names, valid_label_indexes, valid_label_words = DataLoader(model.tokenizer).load_data_from(
-            '/content/dataset-v035--2lines-32k-v5.1.1/valid')
+        train_img_names, train_label_indexes, train_label_words = DataHelper.load_data_from(
+            folder, self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+        valid_img_names, valid_label_indexes, valid_label_words = DataHelper.load_data_from(
+            folder, self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
 
         # build cache
-        DataCacheBuilder().build_cache_for(train_img_names)
-        DataCacheBuilder().build_cache_for(valid_img_names)
+        DataHelper.build_cache_for(train_img_names)
+        DataHelper.build_cache_for(valid_img_names)
 
         # build dataset
-        train_dataset = DatasetBuilder().build_dataset(train_img_names, train_label_indexes)
-        valid_dataset = DatasetBuilder().build_dataset(valid_img_names, valid_label_indexes)
+        self.train_dataset = DataHelper.build_dataset(self.model, train_img_names, train_label_indexes,
+                                                      self.BUFFER_SIZE, self.BATCH_SIZE)
+        self.valid_dataset = DataHelper.build_dataset(self.model, valid_img_names, valid_label_indexes,
+                                                      self.BUFFER_SIZE, self.BATCH_SIZE)
 
-        train_num_steps = len(train_img_names) // BATCH_SIZE
-        valid_num_steps = len(valid_img_names) // BATCH_SIZE
+        self.train_num_steps = len(train_img_names) // self.BATCH_SIZE
+        self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
 
-        train_dataset, valid_dataset = None, None
-
-        # until target
-        # train
-        self.train_more(0.01, 200, train_dataset, valid_dataset, train_num_steps, valid_num_steps)
+    def trainUntil(self, target_loss, max_epoch):
+        self.train_more(target_loss, max_epoch,
+                        self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps)
 
     def train_more(self, MAX_EPOCH, loss_target, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
@@ -50,7 +63,7 @@ class Trainer:
 
         print("-- loss_target=>", loss_target, " train_length=", train_length)
         for _ in range(0, MAX_EPOCH):
-            _epoch += 1
+            self._epoch += 1
             start = time.time()
             total_loss = 0
 
@@ -65,37 +78,37 @@ class Trainer:
 
                 if batch % 50 == 0:
                     print('Epoch {} Batch {} Loss {:.4f}'.format(
-                        _epoch, batch, batch_loss.numpy() / train_length))
+                        self._epoch, batch, batch_loss.numpy() / train_length))
 
             train_loss = total_loss / train_num_steps
             self.loss_plot_train.append(train_loss)
             train_acc = float(self.train_acc_metric.result())
             self.acc_plot_train.append(train_acc)
 
-            # #
-            # # validation loop
-            # #
-            # valid_total_loss = 0
-            # for (batch, (img_tensor, target)) in enumerate(valid_dataset):
-            #     batch_loss, t_loss = test_step(img_tensor, target, train_length)
-            #     valid_total_loss += t_loss
-            # valid_loss = valid_total_loss / valid_num_steps
-            # loss_plot_valid.append(valid_loss)
-            # valid_acc = float(valid_acc_metric.result())
-            # acc_plot_valid.append(valid_acc)
             #
-            # #
-            # # print..
-            # #
+            # validation loop
+            #
+            valid_total_loss = 0
+            for (batch, (img_tensor, target)) in enumerate(valid_dataset):
+                batch_loss, t_loss = self.model.test_step(img_tensor, target, train_length)
+                valid_total_loss += t_loss
+            valid_loss = valid_total_loss / valid_num_steps
+            self.loss_plot_valid.append(valid_loss)
+            valid_acc = float(self.valid_acc_metric.result())
+            self.acc_plot_valid.append(valid_acc)
+
+            #
+            # print..
+            #
 
             print('Epoch {} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ]'.format(
-                _epoch,
+                self._epoch,
                 train_loss,
                 train_acc,
                 valid_loss,
                 valid_acc))
             print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
-            print_time()
+            # print_time()
 
             #
             # target reached?
@@ -108,17 +121,15 @@ class Trainer:
         return False
 
 
-class DataLoader:
-    def __init__(self, tokenizer):
-        self.tokenizer = tokenizer;
-
-    def load_data_from(self, path):
+class DataHelper:
+    @staticmethod
+    def load_data_from(path, tokenizer, SAMPLED):
         image_files = glob(os.path.join(path, 'images/*.jpg'))
         image_files.sort()
 
         label_files = glob(os.path.join(path, 'labels/*.pgn'))
         label_files.sort()
-        labels = [read_label(f) for f in label_files]
+        labels = [utils.read_label(f) for f in label_files]
         # labels= [cleanup( x).lower() for x in labels]
         labels = ['<start> ' + label + ' <end>' for label in labels]
 
@@ -133,60 +144,36 @@ class DataLoader:
             image_files[:], labels[:] = zip(*combined[:n])
             print("SAMPLED!!  size= ", len(image_files), len(labels))
 
-        label_indexes = self.tokenizer.texts_to_sequences(labels)
+        label_indexes = tokenizer.texts_to_sequences(labels)
         for i in range(0, 3):
             print(labels[i], '=>', label_indexes[i])
 
         return image_files, label_indexes, labels
 
-    def load_from(self):
-        # shuffle
-        # train_img_names, train_label_indexes, train_label_words= load_data_from( '/content/shuffle_8lines_32K/train')
-        # valid_img_names, valid_label_indexes, valid_label_words= load_data_from( '/content/shuffle_8lines_32K/valid')
-
-        train_img_names, train_label_indexes, train_label_words = self.load_data_from(
-            '/content/dataset-v035--2lines-32k-v5.1.1/train')
-        valid_img_names, valid_label_indexes, valid_label_words = self.load_data_from(
-            '/content/dataset-v035--2lines-32k-v5.1.1/valid')
-
-
-class DataCacheBuilder:
-    def __init__(self):
-        pass
-
-    # def load_image(image_path):
-    #     img = tf.io.read_file(image_path)
-    #     img = tf.image.decode_jpeg(img, channels=3)
-    #     img = tf.image.resize(img, (200, 862))  # (450, 339))  #original=(576, 678, 3)
-    #     # img = tf.image.resize(img, (540, 407)) #(450, 339))  #original=(576, 678, 3)
-    #     # img = tf.keras.applications.inception_v3.preprocess_input(img)
-    #     img = tf.keras.applications.vgg19.preprocess_input(img)
-    #     return img, image_path
-
-    def build_cache_for(self, img_name_vector):
-        encode_train = sorted(set(img_name_vector))
+    @staticmethod
+    def build_cache_for(model, image_files_list):
+        encode_train = sorted(set(image_files_list))
 
         # Feel free to change batch_size according to your system configuration
         image_dataset = tf.data.Dataset.from_tensor_slices(encode_train)
         image_dataset = image_dataset.map(
-            self.model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(8)  # (16)
+            model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(8)  # (16)
 
         for img, path in image_dataset:
-            batch_features = self.image_features_extract_model(img)
+            batch_features = model.image_features_extract_model(img)
             batch_features = tf.reshape(batch_features,
                                         (batch_features.shape[0], -1, batch_features.shape[3]))
 
             for bf, p in zip(batch_features, path):
                 path_of_feature = p.numpy().decode("utf-8")
                 np.save(path_of_feature, bf.numpy())
-    #
 
+    @staticmethod
+    def build_dataset(model, img_names, label_indexes, BUFFER_SIZE, BATCH_SIZE):
+        def map_func(img_name, cap):
+            img_tensor = np.load(img_name.decode('utf-8') + '.npy')
+            return img_tensor, cap
 
-class DatasetBuilder:
-    def __init__(self):
-        pass
-
-    def build_dataset(self, img_names, label_indexes):
         # deixa no mesmo tamanho, maximo 32
         label_indexes = [label[:32] for label in label_indexes]
         label_indexes = tf.keras.preprocessing.sequence.pad_sequences(label_indexes, padding='post')

@@ -168,7 +168,6 @@ class AttentionEncoderDecoderModel:
         self.ATTENTION_SHAPE = (12, 53)  # (28,21)
         self.FEATURES_SHAPE = 512
         self.ATTENTION_FEATURES_SHAPE = self.ATTENTION_SHAPE[0] * self.ATTENTION_SHAPE[1]  # 16*19   # 308
-        self.BATCH_SIZE = 32
         self.EMBEDDING_DIM = 256
         self.UNITS = 512
         self.LEARNING_RATE = 0.0005
