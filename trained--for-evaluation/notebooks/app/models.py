@@ -250,6 +250,15 @@ class Steps:
         img = tf.keras.applications.vgg19.preprocess_input(img)
         return img, image_path
 
+    def saveCheckpointTo(self, checkpointRelativePath):
+        if self.ckpt is None:
+            self.ckpt = tf.train.Checkpoint(encoder=self.model.encoder,
+                                            decoder=self.model.decoder,
+                                            optimizer=self.model.optimizer)
+        ckpt_manager = tf.train.CheckpointManager(self.ckpt, checkpointRelativePath, max_to_keep=1)
+        ckpt_manager.save()
+        print('saved to ', ckpt_manager.latest_checkpoint)
+
     def restoreFromLatestCheckpoint(self):
         checkpointPath = '../best_checkpoint/1006/checkpoints/train'
         self.ckpt = tf.train.Checkpoint(encoder=self.model.encoder,

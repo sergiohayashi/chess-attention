@@ -1,15 +1,13 @@
 import tensorflow as tf
-
 import utils
-
-device_name = tf.test.gpu_device_name()
-print('Found GPU at: {}'.format(device_name))
 import numpy as np
 import os
 import time
 from glob import glob
 import random
 
+device_name = tf.test.gpu_device_name()
+print('Found GPU at: {}'.format(device_name))
 print(tf.__version__)
 
 

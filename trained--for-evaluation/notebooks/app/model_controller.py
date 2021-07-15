@@ -81,21 +81,20 @@ class ModelTrainController:
         pass
 
     def train(self, trainName, datasetZipFile):
+
         # uncompress for train
-        folder= uncompressToFolder('./tmp/' + datasetZipFile.replace('.zip', ''))
-
-
+        uncompressFolder = './tmp/' + datasetZipFile.replace('.zip', '')
+        uncompressToFolder( datasetZipFile, uncompressFolder)
 
         # trainer sessin
-        trainer = TrainerController( self.model)
+        trainer = TrainerController(self.model)
 
         # prepare dataset
-        trainer.prepareFilesForTrain( folder)
+        trainer.prepareFilesForTrain(uncompressFolder)
 
-        loss, accuracy, epoch= trainer.trainUntil( 0.1, 200)
+        loss, accuracy, epoch = trainer.trainUntil(0.1, 200)
 
-        trainer.save( trainName)
-
+        self.model.steps.saveCheckpointTo('../checkpoints/' + trainName)
 
     def save():
         pass
