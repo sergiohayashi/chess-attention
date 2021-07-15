@@ -100,7 +100,7 @@ class ModelTrainController:
         # prepare dataset
         trainer.prepareFilesForTrain(uncompressFolder)
 
-        loss, accuracy, epoch = trainer.trainUntil(0.1, 10)
+        trainer.trainUntil(0.1, 10)
 
         '''
         self.model.steps.saveCheckpointTo('../train/checkpoints/' + trainName)
