@@ -37,6 +37,7 @@ class ModelPredictController:
 
     def useModel(self, model):
         self.model = model
+        return self
 
     def restoreFromBestCheckpoint(self):
         bestCheckpointPath = '../best_checkpoint/1006/checkpoints/train'
@@ -51,7 +52,7 @@ class ModelPredictController:
         return result
 
     def evaluateForTest(self):
-        evaluator = Evaluator( self.model)
+        evaluator = Evaluator(self.model)
         evaluator.evaluate_test_data()
 
     def predictZip(self):
@@ -113,7 +114,6 @@ class ModelTrainController:
         self.trainer.prepareFilesForTrain(uncompressFolder)
         print('Dataset from zip file ', datasetZipFile, ' ready for training')
 
-
     def trainUntil(self, target_loss, max_epoch):
         print('starting trainUntil ', target_loss, max_epoch)
         self.trainer.trainUntil(target_loss, max_epoch)
@@ -123,3 +123,21 @@ class ModelTrainController:
         checkPointPath = '../train-folder/checkpoints/' + trainName
         self.model.steps.saveCheckpointTo(checkPointPath)
         print('model saved to ' + checkPointPath)
+
+    def trainOrContinueForCurriculum(self, curriculumName, levelsDatasetZipFiles,
+                                     target_loss, max_epoch):
+        for levelZipFile in levelsDatasetZipFiles:
+            checkpointName = "{}--{}".format(curriculumName, os.path.basename(levelZipFile).replace('.zip', ''))
+
+            if self.levelCheckpointExists(checkpointName):
+                # se treino ja foi finalizado, somente recupera..
+                ModelPredictController().useModel(self.model).restoreFromCheckpointName(checkpointName)
+            else:
+
+                # caso contrario, faz o treinamento
+                self.prepareDatasetForTrain(levelZipFile)
+                self.trainUntil(target_loss, max_epoch)
+                self.save()
+
+        self.save(curriculumName)
+        print('treinamento de curriculo finalizado com sucesso!')
