@@ -1,3 +1,4 @@
+from evaluator import Evaluator
 from models import AttentionEncoderDecoderModel
 import zipfile
 import os
@@ -29,19 +30,29 @@ from trainer import TrainerController
 class ModelPredictController:
 
     def __init__(self):
-        self.bestCheckpointPath = 'C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks' \
-                                  '/best_checkpoint/1006/checkpoints/train '
         self.model = None
 
     def load(self):
         self.model = AttentionEncoderDecoderModel().build()
 
+    def useModel(self, model):
+        self.model = model
+
     def restoreFromBestCheckpoint(self):
-        self.model.steps.restoreFromLatestCheckpoint()
+        bestCheckpointPath = '../best_checkpoint/1006/checkpoints/train'
+        self.model.steps.restoreFromLatestCheckpoint(bestCheckpointPath)
+
+    def restoreFromCheckpointName(self, trainName):
+        checkPointPath = '../train-folder/checkpoints/' + trainName
+        self.model.steps.restoreFromLatestCheckpoint(checkPointPath)
 
     def predictOneImage(self, imagePath):
         result = self.model.steps.evaluate(imagePath)
         return result
+
+    def evaluateForTest(self):
+        evaluator = Evaluator( self.model)
+        evaluator.evaluate_test_data()
 
     def predictZip(self):
         pass
@@ -66,9 +77,8 @@ class ModelPredictController:
 
 
 def uncompressToFolder(zipFile, uncompressFolder):
-
-    if os.path.isdir( uncompressFolder):
-        print( uncompressFolder, ' already exists. Skip uncompress..')
+    if os.path.isdir(uncompressFolder):
+        print(uncompressFolder, ' already exists. Skip uncompress..')
         return
 
     print('unzipping ', zipFile, ' to ', uncompressFolder)
@@ -82,29 +92,34 @@ class ModelTrainController:
         self.bestCheckpointPath = 'C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks' \
                                   '/best_checkpoint/1006/checkpoints/train '
         self.model = None
+        self.trainer = None
 
     def load(self):
         self.model = AttentionEncoderDecoderModel().build()
 
-    def initTrainSession(self):
-        pass
+    def useModel(self, model):
+        self.model = model
 
-    def train(self, trainName, datasetZipFile):
+    def initTrainSession(self):
+        self.trainer = TrainerController(self.model)
+
+    def prepareDatasetForTrain(self, datasetZipFile):
         # uncompress for train
+        print('preparing dataset from zip file ', datasetZipFile)
         uncompressFolder = '../train-folder/tmp/' + os.path.basename(datasetZipFile).replace('.zip', '')
         uncompressToFolder(datasetZipFile, uncompressFolder)
 
-        # trainer session
-        trainer = TrainerController(self.model)
-
         # prepare dataset
-        trainer.prepareFilesForTrain(uncompressFolder)
+        self.trainer.prepareFilesForTrain(uncompressFolder)
+        print('Dataset from zip file ', datasetZipFile, ' ready for training')
 
-        trainer.trainUntil(0.1, 10)
 
-        '''
-        self.model.steps.saveCheckpointTo('../train/checkpoints/' + trainName)
-        '''
+    def trainUntil(self, target_loss, max_epoch):
+        print('starting trainUntil ', target_loss, max_epoch)
+        self.trainer.trainUntil(target_loss, max_epoch)
+        print('starting trainUntil ', target_loss, max_epoch, ' DONE!')
 
-    def save():
-        pass
+    def save(self, trainName):
+        checkPointPath = '../train-folder/checkpoints/' + trainName
+        self.model.steps.saveCheckpointTo(checkPointPath)
+        print('model saved to ' + checkPointPath)

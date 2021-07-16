@@ -270,8 +270,7 @@ class Steps:
         ckpt_manager.save()
         print('saved to ', ckpt_manager.latest_checkpoint)
 
-    def restoreFromLatestCheckpoint(self):
-        checkpointPath = '../best_checkpoint/1006/checkpoints/train'
+    def restoreFromLatestCheckpoint(self, checkpointPath):
         self.ckpt = tf.train.Checkpoint(encoder=self.model.encoder,
                                         decoder=self.model.decoder,
                                         optimizer=self.model.optimizer)
