@@ -124,20 +124,31 @@ class ModelTrainController:
         self.model.steps.saveCheckpointTo(checkPointPath)
         print('model saved to ' + checkPointPath)
 
+    def levelCheckpointExists(self, trainName):
+        checkPointPath = '../train-folder/checkpoints/' + trainName
+        self.model.steps.checkpointExists(checkPointPath)
+
     def trainOrContinueForCurriculum(self, curriculumName, levelsDatasetZipFiles,
                                      target_loss, max_epoch):
+        skip= True
         for levelZipFile in levelsDatasetZipFiles:
             checkpointName = "{}--{}".format(curriculumName, os.path.basename(levelZipFile).replace('.zip', ''))
 
-            if self.levelCheckpointExists(checkpointName):
+            if skip and self.levelCheckpointExists(checkpointName):
                 # se treino ja foi finalizado, somente recupera..
+                print('treino para ', checkpointName, ' ja realizado. Recupera checkpoint')
                 ModelPredictController().useModel(self.model).restoreFromCheckpointName(checkpointName)
             else:
-
                 # caso contrario, faz o treinamento
+                print('treino para ', checkpointName, ' NAO realizado. Realiza treinamento.')
                 self.prepareDatasetForTrain(levelZipFile)
                 self.trainUntil(target_loss, max_epoch)
-                self.save()
+                self.save(checkpointName)
+                skip = False
+
+                # valida no testset
+                evaluator = Evaluator(self.model)
+                evaluator.evaluate_test_data()
 
         self.save(curriculumName)
         print('treinamento de curriculo finalizado com sucesso!')

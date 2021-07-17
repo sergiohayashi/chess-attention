@@ -5,6 +5,7 @@ import os
 import time
 from glob import glob
 import random
+from pathlib import Path
 
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
@@ -36,16 +37,16 @@ class TrainerController:
         # load test data
         print('loading train data...');
         train_img_names, train_label_indexes, train_label_words = DataHelper.load_data_from(
-            folder+'/train', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+            folder + '/train', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
         print('loading valid data...');
         valid_img_names, valid_label_indexes, valid_label_words = DataHelper.load_data_from(
-            folder+'/valid', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
+            folder + '/valid', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
 
         # build cache
         print('building cache for train data...');
-        # DataHelper.build_cache_for(self.model, train_img_names)
+        DataHelper.build_cache_for(self.model, train_img_names)
         print('building cache for valid data...');
-        # DataHelper.build_cache_for(self.model, valid_img_names)
+        DataHelper.build_cache_for(self.model, valid_img_names)
 
         # build dataset
         print('building final dataset...');
@@ -158,6 +159,17 @@ class DataHelper:
 
     @staticmethod
     def build_cache_for(model, image_files_list):
+        def not_exists(f):
+            return not Path(f).is_file()
+
+        # filtra imagens com cache ja criado..
+        print('before', len(image_files_list))
+        image_files_list = [f for f in image_files_list if not_exists(f + ".npy")]
+        print('after', len(image_files_list))
+
+        if len(image_files_list) <= 0:
+            return
+
         encode_train = sorted(set(image_files_list))
 
         # Feel free to change batch_size according to your system configuration

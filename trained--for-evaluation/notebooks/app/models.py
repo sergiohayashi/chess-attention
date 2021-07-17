@@ -282,6 +282,10 @@ class Steps:
         else:
             print('no checkpoint found in ', checkpointPath)
 
+    @staticmethod
+    def checkpointExists(checkpointPath):
+        return tf.train.latest_checkpoint(checkpointPath)
+
     def evaluate(self, image, _length=4, no_teach=True):
         # print( 'evaluate>>')
         # print( "_length", _length)
