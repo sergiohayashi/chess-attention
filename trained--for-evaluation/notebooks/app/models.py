@@ -284,7 +284,8 @@ class Steps:
 
     @staticmethod
     def checkpointExists(checkpointPath):
-        return tf.train.latest_checkpoint(checkpointPath)
+        latest = tf.train.latest_checkpoint(checkpointPath)
+        return latest
 
     def evaluate(self, image, _length=4, no_teach=True):
         # print( 'evaluate>>')

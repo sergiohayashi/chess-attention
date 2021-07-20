@@ -16,8 +16,8 @@ class TrainerController:
 
     def __init__(self, model):
         self.model = model
-        self.train_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
-        self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
+        # self.train_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
+        # self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
 
         self.BATCH_SIZE = 32
         self.BUFFER_SIZE = 1000
@@ -33,14 +33,28 @@ class TrainerController:
 
         self._epoch = 0
 
-    def prepareFilesForTrain(self, folder):
+        self.tstart = time.time()
+
+    def print_time(self):
+        end = time.time()
+        hours, rem = divmod(end - self.tstart, 3600)
+        minutes, seconds = divmod(rem, 60)
+        print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
+
+    def prepareFilesForTrain(self, folder, use_sample=(0.1, 0.1)):
+        """
+            Prepare dataset
+        :param folder:
+        :param use_sample_train: perc (valor <0) ou valor absoluto de qtd dados treinamento
+        :param use_sample_valid: perc (valor <0) ou valor absoluto de qtd dados validacao
+        """
         # load test data
         print('loading train data...');
         train_img_names, train_label_indexes, train_label_words = DataHelper.load_data_from(
-            folder + '/train', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+            folder + '/train', self.model.tokenizer, use_sample[0])  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
         print('loading valid data...');
         valid_img_names, valid_label_indexes, valid_label_words = DataHelper.load_data_from(
-            folder + '/valid', self.model.tokenizer, True)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
+            folder + '/valid', self.model.tokenizer, use_sample[1])  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
 
         # build cache
         print('building cache for train data...');
@@ -59,11 +73,11 @@ class TrainerController:
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
         print('building final dataset done');
 
-    def trainUntil(self, target_loss, max_epoch):
-        self.train_more(max_epoch, target_loss,
+    def trainUntil(self, target_loss, target_acc, max_epoch):
+        self.train_more(max_epoch, target_loss, target_acc,
                         self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps)
 
-    def train_more(self, MAX_EPOCH, loss_target, train_dataset, valid_dataset,
+    def train_more(self, MAX_EPOCH, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
                    train_length=4, val_loss_limit=0):  # , n_epoch):
 
@@ -73,7 +87,7 @@ class TrainerController:
             start = time.time()
             total_loss = 0
 
-            self.train_acc_metric.reset_states()
+            self.model.steps.train_acc_metric.reset_states()
 
             #
             # training loop
@@ -88,7 +102,7 @@ class TrainerController:
 
             train_loss = total_loss / train_num_steps
             self.loss_plot_train.append(train_loss)
-            train_acc = float(self.train_acc_metric.result())
+            train_acc = float(self.model.steps.train_acc_metric.result())
             self.acc_plot_train.append(train_acc)
 
             #
@@ -100,7 +114,7 @@ class TrainerController:
                 valid_total_loss += t_loss
             valid_loss = valid_total_loss / valid_num_steps
             self.loss_plot_valid.append(valid_loss)
-            valid_acc = float(self.valid_acc_metric.result())
+            valid_acc = float(self.model.steps.valid_acc_metric.result())
             self.acc_plot_valid.append(valid_acc)
 
             #
@@ -114,13 +128,17 @@ class TrainerController:
                 valid_loss,
                 valid_acc))
             print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
-            # print_time()
+            self.print_time()
 
             #
             # target reached?
             #
-            if loss_target > 0 and (train_loss) <= loss_target:
-                print("Target reached! stop!", ' len= ', train_length)
+            if loss_target > 0 and train_loss <= loss_target:
+                print("Target loss reached! stop!", ' len= ', train_length)
+                return True
+
+            if 0 < target_acc <= train_acc:
+                print("Target acc reached! stop!", ' len= ', train_length)
                 return True
 
         print('epoch exceeded')
@@ -129,7 +147,7 @@ class TrainerController:
 
 class DataHelper:
     @staticmethod
-    def load_data_from(path, tokenizer, SAMPLED):
+    def load_data_from(path, tokenizer, use_sample):
         print('loading data from ', path)
         image_files = glob(os.path.join(path, 'images/*.jpg'))
         image_files.sort()
@@ -144,8 +162,14 @@ class DataHelper:
         labels = [label.split()[0:16 + 1] for label in labels]
 
         # somente uma parte por enquanto
-        if SAMPLED:
-            n = int(len(image_files) * 0.10)
+        if use_sample:
+            print('USE_SAMPLE = ', use_sample)
+            # pode ser percentual(ex: 0.1) ou valor absoluto( ex: 100)
+            # n = max(use_sample, int(len(image_files) * use_sample))
+            # n = min(n, len(image_files))
+            n = int(len(image_files) * use_sample) if use_sample < 0 else min(use_sample, len(image_files))
+            print('USE_SAMPLE N= ', n)
+
             combined = list(zip(image_files, labels))
             random.Random(0).shuffle(combined)
             image_files[:], labels[:] = zip(*combined[:n])

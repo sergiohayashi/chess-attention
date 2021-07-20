@@ -104,19 +104,19 @@ class ModelTrainController:
     def initTrainSession(self):
         self.trainer = TrainerController(self.model)
 
-    def prepareDatasetForTrain(self, datasetZipFile):
+    def prepareDatasetForTrain(self, datasetZipFile, use_sample=(0.1, 0.1)):
         # uncompress for train
         print('preparing dataset from zip file ', datasetZipFile)
         uncompressFolder = '../train-folder/tmp/' + os.path.basename(datasetZipFile).replace('.zip', '')
         uncompressToFolder(datasetZipFile, uncompressFolder)
 
         # prepare dataset
-        self.trainer.prepareFilesForTrain(uncompressFolder)
+        self.trainer.prepareFilesForTrain(uncompressFolder, use_sample)
         print('Dataset from zip file ', datasetZipFile, ' ready for training')
 
-    def trainUntil(self, target_loss, max_epoch):
+    def trainUntil(self, target_loss, target_acc, max_epoch):
         print('starting trainUntil ', target_loss, max_epoch)
-        self.trainer.trainUntil(target_loss, max_epoch)
+        self.trainer.trainUntil(target_loss, target_acc, max_epoch)
         print('starting trainUntil ', target_loss, max_epoch, ' DONE!')
 
     def save(self, trainName):
@@ -126,10 +126,15 @@ class ModelTrainController:
 
     def levelCheckpointExists(self, trainName):
         checkPointPath = '../train-folder/checkpoints/' + trainName
-        self.model.steps.checkpointExists(checkPointPath)
+        return self.model.steps.checkpointExists(checkPointPath)
 
     def trainOrContinueForCurriculum(self, curriculumName, levelsDatasetZipFiles,
-                                     target_loss, max_epoch):
+                                     target_loss, target_acc, max_epoch, use_sample= (0.1, 0.1)):
+
+        if self.levelCheckpointExists( curriculumName):
+            print( 'treino já finalizado. Checkpoint em ', self.levelCheckpointExists( curriculumName));
+            return
+
         skip= True
         for levelZipFile in levelsDatasetZipFiles:
             checkpointName = "{}--{}".format(curriculumName, os.path.basename(levelZipFile).replace('.zip', ''))
@@ -141,8 +146,8 @@ class ModelTrainController:
             else:
                 # caso contrario, faz o treinamento
                 print('treino para ', checkpointName, ' NAO realizado. Realiza treinamento.')
-                self.prepareDatasetForTrain(levelZipFile)
-                self.trainUntil(target_loss, max_epoch)
+                self.prepareDatasetForTrain(levelZipFile, use_sample)
+                self.trainUntil(target_loss, target_acc, max_epoch)
                 self.save(checkpointName)
                 skip = False
 
