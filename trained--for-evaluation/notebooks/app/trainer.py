@@ -73,16 +73,20 @@ class TrainerController:
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
         print('building final dataset done');
 
-    def trainUntil(self, target_loss, target_acc, max_epoch):
-        self.train_more(max_epoch, target_loss, target_acc,
-                        self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps)
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none'):
+        for _len in lens:
+            self.train_more(min_max_epoch, target_loss, target_acc,
+                            self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps,
+                            _len, train_name)
 
-    def train_more(self, MAX_EPOCH, loss_target, target_acc, train_dataset, valid_dataset,
+    def train_more(self, min_max_epoch, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
-                   train_length=4, val_loss_limit=0):  # , n_epoch):
+                   train_length=4, train_name='none', val_loss_limit=0):  # , n_epoch):
 
-        print("-- loss_target=>", loss_target, " train_length=", train_length)
-        for _ in range(0, MAX_EPOCH):
+        MIN_EPOCH, MAX_EPOCH = min_max_epoch
+
+        print("-- loss_target=>", loss_target, " train_length=", train_length, ' name=', train_name)
+        for _ep in range(1, MAX_EPOCH + 1):
             self._epoch += 1
             start = time.time()
             total_loss = 0
@@ -121,15 +125,19 @@ class TrainerController:
             # print..
             #
 
-            print('Epoch {} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ]'.format(
+            print('Epoch {} len={} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ]  {}'.format(
                 self._epoch,
+                train_length,
                 train_loss,
                 train_acc,
                 valid_loss,
-                valid_acc))
+                valid_acc,
+                train_name))
             print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
             self.print_time()
 
+            if _ep < MIN_EPOCH:
+                continue
             #
             # target reached?
             #

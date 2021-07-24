@@ -47,6 +47,9 @@ class ModelPredictController:
         checkPointPath = '../train-folder/checkpoints/' + trainName
         self.model.steps.restoreFromLatestCheckpoint(checkPointPath)
 
+    def restoreFromCheckpointRelativePath(self, relativePath):
+        self.model.steps.restoreFromLatestCheckpoint(relativePath)
+
     def predictOneImage(self, imagePath):
         result = self.model.steps.evaluate(imagePath)
         return result
@@ -104,6 +107,25 @@ class ModelTrainController:
     def initTrainSession(self):
         self.trainer = TrainerController(self.model)
 
+    # TODO: refatorar. Reeptido de PredictController
+    def restoreFromBestCheckpoint(self):
+        bestCheckpointPath = '../best_checkpoint/1006/checkpoints/train'
+        self.model.steps.restoreFromLatestCheckpoint(bestCheckpointPath)
+
+    def restoreFromCheckpointName(self, trainName):
+        # TODO: refatorar. Reeptido de PredictController
+        checkPointPath = '../train-folder/checkpoints/' + trainName
+        self.model.steps.restoreFromLatestCheckpoint(checkPointPath)
+
+    # TODO: refatorar. Reeptido de PredictController
+    def restoreFromCheckpointRelativePath(self, relativePath):
+        self.model.steps.restoreFromLatestCheckpoint(relativePath)
+
+    # TODO: refatorar. Reeptido de PredictController
+    def evaluateForTest(self):
+        evaluator = Evaluator(self.model)
+        evaluator.evaluate_test_data()
+
     def prepareDatasetForTrain(self, datasetZipFile, use_sample=(0.1, 0.1)):
         # uncompress for train
         print('preparing dataset from zip file ', datasetZipFile)
@@ -114,10 +136,10 @@ class ModelTrainController:
         self.trainer.prepareFilesForTrain(uncompressFolder, use_sample)
         print('Dataset from zip file ', datasetZipFile, ' ready for training')
 
-    def trainUntil(self, target_loss, target_acc, max_epoch):
-        print('starting trainUntil ', target_loss, max_epoch)
-        self.trainer.trainUntil(target_loss, target_acc, max_epoch)
-        print('starting trainUntil ', target_loss, max_epoch, ' DONE!')
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none'):
+        print('starting trainUntil ', target_loss, min_max_epoch, train_name)
+        self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name)
+        print('starting trainUntil ', target_loss, min_max_epoch, train_name, ' DONE!')
 
     def save(self, trainName):
         checkPointPath = '../train-folder/checkpoints/' + trainName
@@ -129,13 +151,13 @@ class ModelTrainController:
         return self.model.steps.checkpointExists(checkPointPath)
 
     def trainOrContinueForCurriculum(self, curriculumName, levelsDatasetZipFiles,
-                                     target_loss, target_acc, max_epoch, use_sample= (0.1, 0.1)):
+                                     target_loss, target_acc, min_max_epoch, use_sample=(0.1, 0.1), lens=[4]):
 
-        if self.levelCheckpointExists( curriculumName):
-            print( 'treino já finalizado. Checkpoint em ', self.levelCheckpointExists( curriculumName));
+        if self.levelCheckpointExists(curriculumName):
+            print('treino já finalizado. Checkpoint em ', self.levelCheckpointExists(curriculumName));
             return
 
-        skip= True
+        skip = True
         for levelZipFile in levelsDatasetZipFiles:
             checkpointName = "{}--{}".format(curriculumName, os.path.basename(levelZipFile).replace('.zip', ''))
 
@@ -147,7 +169,7 @@ class ModelTrainController:
                 # caso contrario, faz o treinamento
                 print('treino para ', checkpointName, ' NAO realizado. Realiza treinamento.')
                 self.prepareDatasetForTrain(levelZipFile, use_sample)
-                self.trainUntil(target_loss, target_acc, max_epoch)
+                self.trainUntil(target_loss, target_acc, min_max_epoch, lens, checkpointName)
                 self.save(checkpointName)
                 skip = False
 

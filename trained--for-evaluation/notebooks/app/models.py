@@ -20,6 +20,13 @@ print(tf.__version__)
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
 
+# erro Blas GEMM launch failed quando usando tensorflow 2.4 INICIO
+# physical_devices = tf.config.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# erro Blas GEMM launch failed quando usando tensorflow 2.4 FIM
+
+
+
 # https://forums.developer.nvidia.com/t/could-not-create-cudnn-handle-cudnn-status-alloc-failed/108261
 # precisa?
 # gpus = tf.config.list_physical_devices('GPU')
