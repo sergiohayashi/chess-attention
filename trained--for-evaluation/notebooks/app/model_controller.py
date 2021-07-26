@@ -54,9 +54,9 @@ class ModelPredictController:
         result = self.model.steps.evaluate(imagePath)
         return result
 
-    def evaluateForTest(self):
+    def evaluateForTest(self,  dataset='test', plot_attention=False):
         evaluator = Evaluator(self.model)
-        evaluator.evaluate_test_data()
+        evaluator.evaluate_test_data( dataset, plot_attention)
 
     def predictZip(self):
         pass
@@ -122,19 +122,23 @@ class ModelTrainController:
         self.model.steps.restoreFromLatestCheckpoint(relativePath)
 
     # TODO: refatorar. Reeptido de PredictController
-    def evaluateForTest(self):
+    def evaluateForTest(self, dataset='test'):
         evaluator = Evaluator(self.model)
-        evaluator.evaluate_test_data()
+        evaluator.evaluate_test_data(dataset)
 
-    def prepareDatasetForTrain(self, datasetZipFile, use_sample=(0.1, 0.1)):
+    def prepareDatasetForTrain(self, datasetZipFileOrFolder, use_sample=(0.1, 0.1)):
         # uncompress for train
-        print('preparing dataset from zip file ', datasetZipFile)
-        uncompressFolder = '../train-folder/tmp/' + os.path.basename(datasetZipFile).replace('.zip', '')
-        uncompressToFolder(datasetZipFile, uncompressFolder)
+
+        if datasetZipFileOrFolder.endswith('.zip'):
+            print('preparing dataset from zip file ', datasetZipFileOrFolder)
+            uncompressFolder = '../train-folder/tmp/' + os.path.basename(datasetZipFileOrFolder).replace('.zip', '')
+            uncompressToFolder(datasetZipFileOrFolder, uncompressFolder)
+        else:
+            uncompressFolder = datasetZipFileOrFolder
 
         # prepare dataset
         self.trainer.prepareFilesForTrain(uncompressFolder, use_sample)
-        print('Dataset from zip file ', datasetZipFile, ' ready for training')
+        print('Dataset from zip file ', datasetZipFileOrFolder, ' ready for training')
 
     def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none'):
         print('starting trainUntil ', target_loss, min_max_epoch, train_name)

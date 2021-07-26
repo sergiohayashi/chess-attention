@@ -175,7 +175,7 @@ class DataHelper:
             # pode ser percentual(ex: 0.1) ou valor absoluto( ex: 100)
             # n = max(use_sample, int(len(image_files) * use_sample))
             # n = min(n, len(image_files))
-            n = int(len(image_files) * use_sample) if use_sample < 0 else min(use_sample, len(image_files))
+            n = int(len(image_files) * use_sample) if use_sample <= 1 else min(use_sample, len(image_files))
             print('USE_SAMPLE N= ', n)
 
             combined = list(zip(image_files, labels))

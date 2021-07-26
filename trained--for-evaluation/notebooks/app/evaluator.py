@@ -1,5 +1,7 @@
 import os
 from glob import glob
+
+from plotter import Plotter
 from utils import read_label
 import tensorflow as tf
 import nltk
@@ -21,10 +23,10 @@ def cir_set(labels, result, _len=None):
 
 
 class Evaluator:
-
     def __init__(self, model):
         self._len = 4
         self.model = model
+        self.plotter = Plotter( model)
 
     @staticmethod
     def load_from_path(path, max=None):
@@ -42,19 +44,20 @@ class Evaluator:
             return test_images[:max], test_labels[:max]
 
     @staticmethod
-    def load_test():
-        return Evaluator.load_from_path('../test-data/test', max=None)
+    def load_test(dataset='test'):
+        return Evaluator.load_from_path('../test-data/' + dataset, max=None)
 
-    def evaluate_test_data(self):
+    def evaluate_test_data(self, dataset='test', plot_attention=False):
         result_acc = []
 
-        ac, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(), self._len, show_all=False)
+        ac, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(dataset), self._len,
+                                                         plot_attention=plot_attention)
         result_acc.append((ac, 'test'))
 
-    def evaluate_all_data(self, images, labels, maxlen, no_teach=True, show_all=False):
+    def evaluate_all_data(self, images, labels, maxlen, no_teach=True, show_all=False, plot_attention= False):
         result_ac = []
         result = []
-        print('evaluating total images: ', len( images), '...')
+        print('evaluating total images: ', len(images), '...')
         for i in range(0, len(images)):
             if i % 100 == 0:
                 print('evaluating ', i, '...')
@@ -67,8 +70,9 @@ class Evaluator:
                 print('predicted', r)
                 print('expected', labels[i])
 
+            if plot_attention:
                 # habilitar para plotar attention
-                # plot_attention(images[i], r, attention_plot, labels[i])
+                self.plotter.plot_attention(images[i], r, attention_plot, labels[i])
 
         # calcula a acuracia para cada tamanho
         for _len in range(1, maxlen + 1):
