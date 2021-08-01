@@ -238,8 +238,8 @@ def best_add_hebraica():
     model.restoreFromCheckpointRelativePath('../other_checkpoints/1006/checkpoints/train')
     model.evaluateForTest()
     model.initTrainSession()
-    model.trainOrContinueForCurriculum('1006_add_hebraica_try2', [
-        '../train-folder/tmp/mixed-com-hebraica'
+    model.trainOrContinueForCurriculum('1006_hebraica_metade-1-20210801', [
+        '../train-folder/tmp/mixed-com-hebraica--metade-1'
     ], 0.025, 0.99, (1, 50), (1, 1), lens=[1, 2, 3, 4])
 
 
