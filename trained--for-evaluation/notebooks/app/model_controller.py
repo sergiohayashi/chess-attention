@@ -29,11 +29,16 @@ from trainer import TrainerController
 
 class ModelPredictController:
 
-    def __init__(self):
+    def __init__(self,
+                 NUM_LINHAS=2,
+                 NO_TEACH=True
+                 ):
         self.model = None
+        self.NUM_LINHAS = NUM_LINHAS
+        self.NO_TEACH = NO_TEACH
 
     def load(self):
-        self.model = AttentionEncoderDecoderModel().build()
+        self.model = AttentionEncoderDecoderModel(NUM_LINHAS=self.NUM_LINHAS, NO_TEACH=self.NO_TEACH).build()
 
     def useModel(self, model):
         self.model = model
@@ -92,20 +97,25 @@ def uncompressToFolder(zipFile, uncompressFolder):
 
 
 class ModelTrainController:
-    def __init__(self):
+    def __init__(self,
+                 NUM_LINHAS=2,
+                 NO_TEACH=True
+                 ):
         self.bestCheckpointPath = 'C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks' \
                                   '/best_checkpoint/1006/checkpoints/train '
         self.model = None
         self.trainer = None
+        self.NO_TEACH = NO_TEACH
+        self.NUM_LINHAS = NUM_LINHAS
 
     def load(self):
-        self.model = AttentionEncoderDecoderModel().build()
+        self.model = AttentionEncoderDecoderModel(NUM_LINHAS=self.NUM_LINHAS, NO_TEACH=self.NO_TEACH).build()
 
     def useModel(self, model):
         self.model = model
 
-    def initTrainSession(self):
-        self.trainer = TrainerController(self.model)
+    def initTrainSession(self, BATCH_SIZE=32):
+        self.trainer = TrainerController(self.model, BATCH_SIZE=BATCH_SIZE)
 
     # TODO: refatorar. Reeptido de PredictController
     def restoreFromBestCheckpoint(self):

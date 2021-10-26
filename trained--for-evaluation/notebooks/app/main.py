@@ -238,16 +238,153 @@ def best_add_hebraica():
     model.restoreFromCheckpointRelativePath('../other_checkpoints/1006/checkpoints/train')
     model.evaluateForTest()
     model.initTrainSession()
-    model.trainOrContinueForCurriculum('1006_hebraica_metade-1-20210801', [
-        '../train-folder/tmp/mixed-com-hebraica--metade-1'
+    model.trainOrContinueForCurriculum('nivel-6', [
+        '../train-folder/tmp/nivel-6--hebraica-metade-1'
     ], 0.025, 0.99, (1, 50), (1, 1), lens=[1, 2, 3, 4])
 
+
+def train_handwritten_only():
+    model = ModelTrainController();
+    model.load()
+    model.initTrainSession()
+    model.trainOrContinueForCurriculum('handwritten-only', [
+        '../train-folder/dataset/handwritten-only.zip'
+    ], 0.1, 0.95, (2, 50), (1, 1), lens=[1, 2, 3, 4])
+
+
+def train_handwritten_only_deumavez():
+    model = ModelTrainController();
+    model.load()
+    model.initTrainSession()
+    model.trainOrContinueForCurriculum('ca', [
+        '../train-folder/dataset/handwritten-only.zip'
+    ], 0.1, 0.95, (2, 50), (1, 1), lens=[4])
+
+
+def train_handwritten_only_deumavez_teach_forcing():
+    model = ModelTrainController(NO_TEACH=False);
+    model.load()
+    model.initTrainSession()
+    model.trainOrContinueForCurriculum('handwritten-only-deumavez--teach-force-final', [
+        '../train-folder/dataset/handwritten-only.zip'
+    ], 0.1, 0.95, (2, 50), (1, 1), lens=[1, 2, 3, 4])
+
+
+def train_curriculum_21_teacher_force():
+    model = ModelTrainController(NO_TEACH=False);
+    model.load()
+    model.initTrainSession()
+    model.trainOrContinueForCurriculum('curriculum-try-22--teacher-force', [
+        '../train-folder/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip'
+        , '../train-folder/dataset/nivel-1--dataset-v034--2lines-parts--42k-v3.zip'
+        , '../train-folder/dataset/nivel-2--dataset-v034--2lines-parts--40k-v4.zip'
+        , '../train-folder/dataset/nivel-4--dataset-v035--2lines-32k-v5.0.zip'
+        , '../train-folder/dataset/nivel-5--dataset-v035--2lines-32k-v5.1.zip'
+    ], 0.07, 0.97, (2, 20), (1, 1), lens=[1, 2, 3, 4])
+
+
+def train_all_combinations():
+    dataset_handwritten = ['../train-folder/dataset/handwritten-only.zip']
+
+    dataset_niveis = [
+        '../train-folder/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip'
+        , '../train-folder/dataset/nivel-1--dataset-v034--2lines-parts--42k-v3.zip'
+        , '../train-folder/dataset/nivel-2--dataset-v034--2lines-parts--40k-v4.zip'
+        , '../train-folder/dataset/nivel-4--dataset-v035--2lines-32k-v5.0.zip'
+        , '../train-folder/dataset/nivel-5--dataset-v035--2lines-32k-v5.1.zip'
+    ]
+
+    for lens in [[4], [1, 2, 3, 4]]:
+        for no_teach in [True, False]:
+            for niveis in [dataset_handwritten, dataset_niveis]:
+                train_name = "train_200210902_{}__{}__{}".format(
+                    "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
+                    "NO_TEACH" if no_teach else "TEACH",
+                    "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
+
+                print("========================================================================")
+                print("INICIANDO TESTE => ", train_name)
+
+                model = ModelTrainController(NO_TEACH=no_teach)
+                model.load()
+                model.initTrainSession()
+                model.trainOrContinueForCurriculum(train_name,
+                                                   niveis, 0.1, 0.95,
+                                                   (1, 50),
+                                                   (25000, 5000),
+                                                   lens=lens)  # testa 2 epoch por enquanto..
+                #
+                print("VALIDANDO => ", train_name)
+                # # model.evaluateForTest('test')
+                model.evaluateForTest('irt_hebraica_jan2020')
+                print("FINALIZADO TESTE => ", train_name)
+
+
+def train_all_combinations__um_a_um():
+    dataset_handwritten = ['../train-folder/dataset/handwritten-only.zip']
+    dataset_niveis = [
+        '../train-folder/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip'
+        , '../train-folder/dataset/nivel-1--dataset-v034--2lines-parts--42k-v3.zip'
+        , '../train-folder/dataset/nivel-2--dataset-v034--2lines-parts--40k-v4.zip'
+        , '../train-folder/dataset/nivel-4--dataset-v035--2lines-32k-v5.0.zip'
+        , '../train-folder/dataset/nivel-5--dataset-v035--2lines-32k-v5.1.zip'
+    ]
+
+    ## Ajustar 1 a 1
+    lens = [4]                      #[[4], [1, 2, 3, 4]]:
+    no_teach = True                 #[True, False]
+    niveis = dataset_niveis    #[dataset_handwritten, dataset_niveis]
+
+    train_name = "train_200210902_1a1_{}__{}__{}".format(
+        "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
+        "NO_TEACH" if no_teach else "TEACH",
+        "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
+
+    print("========================================================================")
+    print("INICIANDO TESTE => ", train_name)
+
+    model = ModelTrainController(NO_TEACH=no_teach)
+    model.load()
+    model.initTrainSession()
+    model.trainOrContinueForCurriculum(train_name,
+                                       niveis, 0.1, 0.95,
+                                       (1, 50),
+                                       (25000, 5000),
+                                       lens=lens)  # testa 2 epoch por enquanto..
+    #
+    print("VALIDANDO => ", train_name)
+    # # model.evaluateForTest('test')
+    model.evaluateForTest('irt_hebraica_jan2020')
+    print("FINALIZADO TESTE => ", train_name)
+
+def train_8_lines():
+    lens = [1]
+    no_teach = True
+    niveis = ['../train-folder/dataset/dataset-8lines-v002-somente_handwriten.zip']
+    NUM_LINES = 8
+
+    train_name = "train_20211026_{}lines_{}__{}__{}".format(
+        NUM_LINES,
+        "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
+        "NO_TEACH" if no_teach else "TEACH",
+        "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model.load()
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       niveis, 0.2, 0.90,
+                                       (1, 3),
+                                       (1, 1),
+                                       lens=lens)
+    model.evaluateForTest('test-8lines')
+    print("FINALIZADO TESTE => ", train_name)
 
 if __name__ == '__main__':
     print('PyCharm')
     # level7_try1_()
 
-    best_add_hebraica()
+    train_8_lines()
 
     # DatasetGenerator().generate()
 
@@ -258,3 +395,9 @@ if __name__ == '__main__':
 # target=loss=0.1, acc=0.99
 
 # TODO:  Por que para alguns aparece a predição UNK?
+
+#  TODO: Fazer um treinamento corrido logando em aquivo
+#       por opoch => dataset, target len, target loss, loss, acurácia, valid loss, valid acurácia,
+#       por dataset => valid  testes
+#
+# TODO: Tentar rodar para tamanho 8 com batch size menor, de 16 (atual é 32).

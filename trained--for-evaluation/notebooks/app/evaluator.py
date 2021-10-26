@@ -49,19 +49,19 @@ class Evaluator:
 
     def evaluate_test_data(self, dataset='test', plot_attention=False):
         result_acc = []
-
+        print('evaluating dataset ', dataset)
         ac, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(dataset), self._len,
                                                          plot_attention=plot_attention)
         result_acc.append((ac, 'test'))
 
-    def evaluate_all_data(self, images, labels, maxlen, no_teach=True, show_all=False, plot_attention= False):
+    def evaluate_all_data(self, images, labels, maxlen, show_all=False, plot_attention= False):
         result_ac = []
         result = []
         print('evaluating total images: ', len(images), '...')
         for i in range(0, len(images)):
             if i % 100 == 0:
                 print('evaluating ', i, '...')
-            r, attention_plot, _ = self.model.steps.evaluate(images[i], maxlen, no_teach)
+            r, attention_plot, _ = self.model.steps.evaluate(images[i], maxlen)
             result.append(r)
 
             # habilitar para exibir resultado e esperado

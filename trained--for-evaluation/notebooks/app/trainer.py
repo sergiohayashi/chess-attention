@@ -14,12 +14,12 @@ print(tf.__version__)
 
 class TrainerController:
 
-    def __init__(self, model):
+    def __init__(self, model, BATCH_SIZE=32):
         self.model = model
         # self.train_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
         # self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
 
-        self.BATCH_SIZE = 32
+        self.BATCH_SIZE = BATCH_SIZE
         self.BUFFER_SIZE = 1000
         self.train_dataset = None
         self.valid_dataset = None

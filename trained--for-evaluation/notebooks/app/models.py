@@ -20,11 +20,11 @@ print(tf.__version__)
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
 
+
 # erro Blas GEMM launch failed quando usando tensorflow 2.4 INICIO
 # physical_devices = tf.config.list_physical_devices('GPU')
 # tf.config.experimental.set_memory_growth(physical_devices[0], True)
 # erro Blas GEMM launch failed quando usando tensorflow 2.4 FIM
-
 
 
 # https://forums.developer.nvidia.com/t/could-not-create-cudnn-handle-cudnn-status-alloc-failed/108261
@@ -183,15 +183,25 @@ class RNN_Decoder(tf.keras.Model):
 
 
 class AttentionEncoderDecoderModel:
-    def __init__(self):
+    def __init__(self,
+                 NUM_LINHAS=2,
+                 NO_TEACH=True,
+                 ):
         # -1 gera (None, 18, 21, 512)
-        self.ATTENTION_SHAPE = (12, 53)  # (28,21)
+        if NUM_LINHAS == 2:
+            self.ATTENTION_SHAPE = (12, 53)
+            self.INPUT_SHAPE = (200, 862)
+        elif NUM_LINHAS == 8:
+            self.ATTENTION_SHAPE = (50, 53)
+            self.INPUT_SHAPE = (800, 862)
+        else:
+            raise NameError("Suporta somente 2 e 8 linhas")
         self.FEATURES_SHAPE = 512
         self.ATTENTION_FEATURES_SHAPE = self.ATTENTION_SHAPE[0] * self.ATTENTION_SHAPE[1]  # 16*19   # 308
         self.EMBEDDING_DIM = 256
         self.UNITS = 512
         self.LEARNING_RATE = 0.0005
-        self.NO_TEACH = True
+        self.NO_TEACH = NO_TEACH
         self.FREEZE_ENCODER = False
         self.TRAIN_LENGTH = 16
         # self = Config()
@@ -209,7 +219,7 @@ class AttentionEncoderDecoderModel:
     def build(self):
         self.image_model = tf.keras.applications.VGG16(include_top=False,
                                                        weights='imagenet',
-                                                       input_shape=(200, 862, 3))  # => gera (16, 19, 2048)
+                                                       input_shape=(self.INPUT_SHAPE[0], self.INPUT_SHAPE[1], 3))  # => gera (16, 19, 2048)
         # input_shape= (900, 678, 3))  # => gera (16, 19, 2048)
         # O input shape nao é obrigatorio, mas setando dá para
         # ver o tamanho do output
@@ -260,11 +270,11 @@ class Steps:
         self.train_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
         self.valid_acc_metric = tf.keras.metrics.SparseCategoricalAccuracy()
 
-    @staticmethod
-    def load_image(image_path):
+    # @staticmethod
+    def load_image(self, image_path):
         img = tf.io.read_file(image_path)
         img = tf.image.decode_jpeg(img, channels=3)
-        img = tf.image.resize(img, (200, 862))
+        img = tf.image.resize(img, self.model.INPUT_SHAPE)
         img = tf.keras.applications.vgg19.preprocess_input(img)
         return img, image_path
 
@@ -294,7 +304,7 @@ class Steps:
         latest = tf.train.latest_checkpoint(checkpointPath)
         return latest
 
-    def evaluate(self, image, _length=4, no_teach=True):
+    def evaluate(self, image, _length=4):
         # print( 'evaluate>>')
         # print( "_length", _length)
 
@@ -308,7 +318,7 @@ class Steps:
 
         features = self.model.encoder(img_tensor_val)
 
-        dec_input = tf.expand_dims([0 if no_teach else self.model.tokenizer.word_index['<start>']], 0)
+        dec_input = tf.expand_dims([0 if self.model.NO_TEACH else self.model.tokenizer.word_index['<start>']], 0)
         result = []
         # result_top5 = []
 
@@ -323,7 +333,7 @@ class Steps:
 
             # predicted_id_top5= tf.math.top_k( predictions, 10)[1][0].numpy()
             # result_top5.append( [tokenizer.index_word[id] for id in predicted_id_top5])
-            dec_input = tf.expand_dims([0 if no_teach else predicted_id], 0)
+            dec_input = tf.expand_dims([0 if self.model.NO_TEACH else predicted_id], 0)
 
         attention_plot = attention_plot[:len(result), :]
         return result, attention_plot, None
@@ -415,7 +425,7 @@ class TokenizerBuilder:
 
     def build(self):
         tokenizer = self.build_tokenizer()
-        print('total do vocabularario= ', len(tokenizer.word_index))  # expected 1578
+        print('total do vocabulario= ', len(tokenizer.word_index))  # expected 1578
 
         VOCAB_SIZE = len(tokenizer.word_index) + 1
         print('VOCAB_SIZE', VOCAB_SIZE)
