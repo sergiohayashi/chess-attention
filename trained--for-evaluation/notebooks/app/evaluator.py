@@ -72,6 +72,7 @@ class Evaluator:
                 print('expected', labels[i])
 
             if plot_attention:
+                print('------------------------', i, '------------------------------')
                 # habilitar para plotar attention
                 self.plotter.plot_attention(images[i], r, attention_plot, labels[i])
 
