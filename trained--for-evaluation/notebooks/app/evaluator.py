@@ -23,8 +23,9 @@ def cir_set(labels, result, _len=None):
 
 
 class Evaluator:
-    def __init__(self, model):
-        self._len = 4
+    def __init__(self, model, target_len=4):
+        print('target_len= ', target_len)
+        self._len = target_len
         self.model = model
         self.plotter = Plotter( model)
 
@@ -74,7 +75,17 @@ class Evaluator:
                 # habilitar para plotar attention
                 self.plotter.plot_attention(images[i], r, attention_plot, labels[i])
 
+                # exibe acuracia e cir
+                m = tf.keras.metrics.Accuracy()
+                m.update_state(
+                    self.model.tokenizer.texts_to_sequences(labels[i])[:maxlen],
+                    self.model.tokenizer.texts_to_sequences(r)[:maxlen])
+                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0 for w in labels[i]][:uselen],
+                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0  for w in result[i]][:uselen])
+                print('len', maxlen, 'accuracy', float(m.result()), 'cir', cir_set([labels[i]], [r], maxlen))
+
         # calcula a acuracia para cada tamanho
+        print( '------------------------------------------')
         for _len in range(1, maxlen + 1):
             m = tf.keras.metrics.Accuracy()
 

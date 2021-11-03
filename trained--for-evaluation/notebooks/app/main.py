@@ -331,9 +331,9 @@ def train_all_combinations__um_a_um():
     ]
 
     ## Ajustar 1 a 1
-    lens = [4]                      #[[4], [1, 2, 3, 4]]:
-    no_teach = True                 #[True, False]
-    niveis = dataset_niveis    #[dataset_handwritten, dataset_niveis]
+    lens = [4]  # [[4], [1, 2, 3, 4]]:
+    no_teach = True  # [True, False]
+    niveis = dataset_niveis  # [dataset_handwritten, dataset_niveis]
 
     train_name = "train_200210902_1a1_{}__{}__{}".format(
         "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
@@ -357,13 +357,14 @@ def train_all_combinations__um_a_um():
     model.evaluateForTest('irt_hebraica_jan2020')
     print("FINALIZADO TESTE => ", train_name)
 
-def train_8_lines():
-    lens = [1]
+
+def train_8_lines_handwritten():
+    lens = [2, 4, 6, 8, 10, 12, 14, 16]
     no_teach = True
     niveis = ['../train-folder/dataset/dataset-8lines-v002-somente_handwriten.zip']
     NUM_LINES = 8
 
-    train_name = "train_20211026_{}lines_{}__{}__{}".format(
+    train_name = "train_20211026_final_{}lines_{}__{}__{}".format(
         NUM_LINES,
         "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
         "NO_TEACH" if no_teach else "TEACH",
@@ -371,20 +372,123 @@ def train_8_lines():
 
     model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
     model.load()
+    # model.initTrainSession()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
-                                       niveis, 0.2, 0.90,
-                                       (1, 3),
-                                       (1, 1),
+                                       niveis, 0.1, 0.90,
+                                       (1, 50),
+                                       (25000, 5000),
                                        lens=lens)
-    model.evaluateForTest('test-8lines')
+    model.evaluateForTest('test-8lines', len=lens[-1])
     print("FINALIZADO TESTE => ", train_name)
+
+
+def train_8_lines_curriculum():
+#    lens = [1, 2, 3, 4, 6, 8, 10, 12, 14, 16]   # etapas 1
+#    lens = [1, 2, 4, 6, 8, 10, 12, 14, 16]   # etapas 2, 3
+    lens = [16]   # etapas 4, 5 DIRETO
+    lens = [2, 4, 6, 8, 10, 12, 14, 16]   # etapas 4
+    no_teach = True
+    niveis = [
+        '../train-folder/dataset/curriculum-8-linhas--etapa-1.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-2.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-3.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-4.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-5.zip',
+    ]
+    NUM_LINES = 8
+
+    train_name = "train_20211026_curriculum_try2_{}lines_{}__{}__{}".format(
+        NUM_LINES,
+        "INCR_LEN",
+        "NO_TEACH" if no_teach else "TEACH",
+        "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model.load()
+    # model.initTrainSession()
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       niveis, 0.1, 0.90,
+                                       (1, 50),
+                                       (10000, 1000),
+                                       lens=lens)
+    model.evaluateForTest('test-8lines', _len=16)
+    print("FINALIZADO TESTE => ", train_name)
+
+
+def train_8_lines_curriculum_etapa5():
+#    lens = [1, 2, 3, 4, 6, 8, 10, 12, 14, 16]   # etapas 1
+#    lens = [1, 2, 4, 6, 8, 10, 12, 14, 16]   # etapas 2, 3
+#    lens = [16]   # etapas 4, 5 DIRETO
+    lens = [2, 4, 6, 8, 10, 12, 14, 15, 16]   # etapas 5
+    no_teach = True
+    niveis = [
+        '../train-folder/dataset/curriculum-8-linhas--etapa-1.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-2.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-3.zip',
+        # '../train-folder/dataset/curriculum-8-linhas--etapa-4.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-5.zip',
+    ]
+    NUM_LINES = 8
+
+    train_name = "train_20211026_curriculum_try2_{}lines_{}__{}__{}".format(
+        NUM_LINES,
+        "INCR_LEN",
+        "NO_TEACH" if no_teach else "TEACH",
+        "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model.load()
+    # model.initTrainSession()
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       # niveis, 0.1, 0.90,
+                                       niveis, 0.1, 0.9,
+                                       (1, 50),
+                                       (20000, 1000),
+                                       lens=lens)
+    model.evaluateForTest('test-8lines', _len=16)
+    print("FINALIZADO TESTE => ", train_name)
+
+
+def train_8_lines_curriculum_etapa5_refinamento_1():
+#    lens = [1, 2, 3, 4, 6, 8, 10, 12, 14, 16]   # etapas 1
+#    lens = [1, 2, 4, 6, 8, 10, 12, 14, 16]   # etapas 2, 3
+#    lens = [16]   # etapas 4, 5 DIRETO
+    lens = [16]   # etapas 5
+    no_teach = True
+    niveis = [
+        # '../train-folder/dataset/curriculum-8-linhas--etapa-1.zip',
+        # '../train-folder/dataset/curriculum-8-linhas--etapa-2.zip',
+        # '../train-folder/dataset/curriculum-8-linhas--etapa-3.zip',
+        # '../train-folder/dataset/curriculum-8-linhas--etapa-4.zip',
+        '../train-folder/dataset/curriculum-8-linhas--etapa-5.zip',
+    ]
+    NUM_LINES = 8
+
+    train_name = "train_20211026_curriculum_try2_8lines_INCR_LEN__NO_TEACH__CURRICULUM_ref1_"
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model.load()
+    model.restoreFromCheckpointName('train_20211026_curriculum_try2_8lines_INCR_LEN__NO_TEACH__CURRICULUM--curriculum-8-linhas--etapa-5')
+    # model.initTrainSession()
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       # niveis, 0.1, 0.90,
+                                       niveis, 0.1, 0.99,
+                                       (1, 50),
+                                       (20000, 1000),
+                                       lens=lens)
+    model.evaluateForTest('test-8lines', _len=16)
+    print("FINALIZADO TESTE => ", train_name)
+
 
 if __name__ == '__main__':
     print('PyCharm')
     # level7_try1_()
 
-    train_8_lines()
+    train_8_lines_curriculum_etapa5_refinamento_1()
 
     # DatasetGenerator().generate()
 

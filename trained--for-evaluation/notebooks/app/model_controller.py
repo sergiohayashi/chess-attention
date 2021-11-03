@@ -59,8 +59,8 @@ class ModelPredictController:
         result = self.model.steps.evaluate(imagePath)
         return result
 
-    def evaluateForTest(self,  dataset='test', plot_attention=False):
-        evaluator = Evaluator(self.model)
+    def evaluateForTest(self,  dataset='test', plot_attention=False, _len=4):
+        evaluator = Evaluator(self.model, _len)
         evaluator.evaluate_test_data( dataset, plot_attention)
 
     def predictZip(self):
@@ -132,8 +132,8 @@ class ModelTrainController:
         self.model.steps.restoreFromLatestCheckpoint(relativePath)
 
     # TODO: refatorar. Reeptido de PredictController
-    def evaluateForTest(self, dataset='test'):
-        evaluator = Evaluator(self.model)
+    def evaluateForTest(self, dataset='test', _len=4):
+        evaluator = Evaluator(self.model, _len)
         evaluator.evaluate_test_data(dataset)
 
     def prepareDatasetForTrain(self, datasetZipFileOrFolder, use_sample=(0.1, 0.1)):
@@ -187,8 +187,8 @@ class ModelTrainController:
                 self.save(checkpointName)
                 skip = False
 
-                # valida no testset
-                evaluator = Evaluator(self.model)
+                # valida no testset, até o tamanho maximo infoamdo
+                evaluator = Evaluator(self.model, target_len=lens[-1])
                 evaluator.evaluate_test_data()
 
         self.save(curriculumName)

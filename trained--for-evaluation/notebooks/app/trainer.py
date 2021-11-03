@@ -207,7 +207,8 @@ class DataHelper:
         # Feel free to change batch_size according to your system configuration
         image_dataset = tf.data.Dataset.from_tensor_slices(encode_train)
         image_dataset = image_dataset.map(
-            model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(8)  # (16)
+            # aqui com (8) da erro de memoria para rodar em meu pc (GPU com 6Gb memoria)
+            model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(4) #8)  # (16)
 
         for img, path in image_dataset:
             batch_features = model.image_features_extract_model(img)
