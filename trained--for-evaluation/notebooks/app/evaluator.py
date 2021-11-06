@@ -1,5 +1,6 @@
 import os
 from glob import glob
+from pathlib import Path
 
 from plotter import Plotter
 from utils import read_label
@@ -27,7 +28,7 @@ class Evaluator:
         print('target_len= ', target_len)
         self._len = target_len
         self.model = model
-        self.plotter = Plotter( model)
+        self.plotter = Plotter(model)
 
     @staticmethod
     def load_from_path(path, max=None):
@@ -55,52 +56,58 @@ class Evaluator:
                                                          plot_attention=plot_attention)
         result_acc.append((ac, 'test'))
 
-    def evaluate_all_data(self, images, labels, maxlen, show_all=False, plot_attention= False):
-        result_ac = []
+    def evaluate_all_data(self, images, labels, maxlen, plot_attention=False):
         result = []
+        all_results = []
         print('evaluating total images: ', len(images), '...')
+
         for i in range(0, len(images)):
             if i % 100 == 0:
                 print('evaluating ', i, '...')
             r, attention_plot, _ = self.model.steps.evaluate(images[i], maxlen)
             result.append(r)
 
-            # habilitar para exibir resultado e esperado
-            if i < 5 or show_all:
-                print('------------------------', i, '------------------------------')
-                print('predicted', r)
-                print('expected', labels[i])
+            # calcula o indice
+            m = tf.keras.metrics.Accuracy()
+            m.update_state(
+                self.model.tokenizer.texts_to_sequences(labels[i])[:maxlen],
+                self.model.tokenizer.texts_to_sequences(r)[:maxlen])
+            all_results.append({
+                'file': images[i],
+                'label': labels[i],
+                'prediction': r,
+                'attention': attention_plot,
+                'acc': float(m.result()),
+                'cer': cir_set([labels[i]], [r], maxlen)
+            });
 
-            if plot_attention:
-                print('------------------------', i, '------------------------------')
-                # habilitar para plotar attention
-                self.plotter.plot_attention(images[i], r, attention_plot, labels[i])
-
-                # exibe acuracia e cir
-                m = tf.keras.metrics.Accuracy()
-                m.update_state(
-                    self.model.tokenizer.texts_to_sequences(labels[i])[:maxlen],
-                    self.model.tokenizer.texts_to_sequences(r)[:maxlen])
-                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0 for w in labels[i]][:uselen],
-                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0  for w in result[i]][:uselen])
-                print('len', maxlen, 'accuracy', float(m.result()), 'cir', cir_set([labels[i]], [r], maxlen))
-
-        # calcula a acuracia para cada tamanho
-        print( '------------------------------------------')
+        # calcula a acurácia para cada tamanho
+        print('--------------< Indice por tamanho de sequencia >----------------------------')
+        result_ac = []
         for _len in range(1, maxlen + 1):
             m = tf.keras.metrics.Accuracy()
 
-            # acuracia para cada teste, até o tamanho atual
+            # acurácia para cada teste, até o tamanho atual
             for i in range(0, len(result)):
                 useLen = min(len(labels[i]), len(result[i]), _len)
                 m.update_state(
                     self.model.tokenizer.texts_to_sequences(labels[i])[:useLen],
                     self.model.tokenizer.texts_to_sequences(result[i])[:useLen])
-                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0 for w in labels[i]][:uselen],
-                # [tokenizer.word_index[w] if w in tokenizer.word_index else 0  for w in result[i]][:uselen])
 
             print('len', _len, 'accuracy', float(m.result()), 'cir', cir_set(labels, result, _len))
             result_ac.append(float(m.result()))
+
+        if plot_attention:
+            # ordena, da pior para melhor
+            # all_results = sorted(all_results, key=lambda k: (k['acc'], -k['cer']))
+            all_results = sorted(all_results, key=lambda k: (-k['cer'], k['acc']))
+
+            # imprime
+            for i in range(0, len(all_results)):
+                r = all_results[i]
+                print('--------------------< ', i, ': ', Path(r['file']).name, '>------------------------------')
+                print('len:', maxlen, 'acc:', r['acc'], 'cer', r['cer'], 'file: ', r['file'])
+                self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
 
         predicted = result
         return result_ac, predicted, labels
