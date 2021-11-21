@@ -1,0 +1,5 @@
+Para conseguir rodar imagens de 8 linhas, o que fiz:
+
+1) Reduzir o batch size para 16 (antes era 32)
+2) Reduzir o tamanho do batch do VGG16 para 4 (antes era 8).
+
