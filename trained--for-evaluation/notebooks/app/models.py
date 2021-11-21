@@ -9,9 +9,12 @@
 # remote: warning: See http://git.io/iEPt8g for more information.
 # remote: warning: File trained--for-evaluation/notebooks/best_checkpoint/1006/checkpoints/train/ckpt-48.data-00000-of-00001 is 66.23 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
 #
+import json
 
 import tensorflow as tf
 import numpy as np
+
+from config import config
 
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
@@ -196,6 +199,12 @@ class AttentionEncoderDecoderModel:
             self.INPUT_SHAPE = (800, 862)
         else:
             raise NameError("Suporta somente 2 e 8 linhas")
+
+        if "FORCE_INPUT_SIZE" in config:
+            print("\nUsa FORCE_INPUT_SIZE informada em config.py", json.dumps(config["FORCE_INPUT_SIZE"]), "\n")
+            self.ATTENTION_SHAPE = config["FORCE_INPUT_SIZE"]["ATTENTION_SHAPE"]
+            self.INPUT_SHAPE = config["FORCE_INPUT_SIZE"]["INPUT_SHAPE"]
+
         self.FEATURES_SHAPE = 512
         self.ATTENTION_FEATURES_SHAPE = self.ATTENTION_SHAPE[0] * self.ATTENTION_SHAPE[1]  # 16*19   # 308
         self.EMBEDDING_DIM = 256
@@ -219,12 +228,14 @@ class AttentionEncoderDecoderModel:
     def build(self):
         self.image_model = tf.keras.applications.VGG16(include_top=False,
                                                        weights='imagenet',
-                                                       input_shape=(self.INPUT_SHAPE[0], self.INPUT_SHAPE[1], 3))  # => gera (16, 19, 2048)
+                                                       input_shape=(self.INPUT_SHAPE[0], self.INPUT_SHAPE[1],
+                                                                    3))  # => gera (16, 19, 2048)
         # input_shape= (900, 678, 3))  # => gera (16, 19, 2048)
         # O input shape nao é obrigatorio, mas setando dá para
         # ver o tamanho do output
         new_input = self.image_model.input
         hidden_layer = self.image_model.layers[-2].output
+        print("Shape da imagem ao final da CNN: ", self.image_model.layers[-2].output.shape)
         self.image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
 
         self.encoder = CNN_Encoder(self.EMBEDDING_DIM, self.UNITS)

@@ -1,3 +1,5 @@
+import json
+
 import tensorflow as tf
 import utils
 import numpy as np
@@ -6,6 +8,8 @@ import time
 from glob import glob
 import random
 from pathlib import Path
+
+from evaluator import Evaluator
 
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
@@ -30,6 +34,8 @@ class TrainerController:
         self.loss_plot_valid = []
         self.acc_plot_train = []
         self.acc_plot_valid = []
+
+        self.logs = []
 
         self._epoch = 0
 
@@ -73,15 +79,15 @@ class TrainerController:
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
         print('building final dataset done');
 
-    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none'):
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
         for _len in lens:
             self.train_more(min_max_epoch, target_loss, target_acc,
                             self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps,
-                            _len, train_name)
+                            _len, train_name, test_set=test_set)
 
     def train_more(self, min_max_epoch, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
-                   train_length=4, train_name='none', val_loss_limit=0):  # , n_epoch):
+                   train_length=4, train_name='none', val_loss_limit=0, test_set=None):  # , n_epoch):
 
         MIN_EPOCH, MAX_EPOCH = min_max_epoch
 
@@ -122,19 +128,42 @@ class TrainerController:
             self.acc_plot_valid.append(valid_acc)
 
             #
+            # testa também no test_set, se informado..
+            #
+            if test_set:
+                test_acc = Evaluator(self.model, target_len=train_length).evaluate_test_data( test_set)
+            else:
+                test_acc = None
+
+            #
             # print..
             #
-
-            print('Epoch {} len={} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ]  {}'.format(
+            print('Epoch {} len={} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ] test_acc:{} - {}'.format(
                 self._epoch,
                 train_length,
                 train_loss,
                 train_acc,
                 valid_loss,
                 valid_acc,
+                json.dumps( test_acc),
                 train_name))
             print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
             self.print_time()
+
+            #
+            # guarda no log
+            #
+            self.logs.append({
+                "epoch": self._epoch,
+                "train_length": train_length,
+                "train_loss": float(train_loss.numpy()),
+                "train_acc": float(train_acc),
+                "valid_loss": float(valid_loss.numpy()),
+                "valid_acc": float(valid_acc),
+                "train_name": train_name,
+                'test_acc': test_acc,
+                "time_taken": time.time() - start
+            })
 
             if _ep < MIN_EPOCH:
                 continue
@@ -208,7 +237,7 @@ class DataHelper:
         image_dataset = tf.data.Dataset.from_tensor_slices(encode_train)
         image_dataset = image_dataset.map(
             # aqui com (8) da erro de memoria para rodar em meu pc (GPU com 6Gb memoria)
-            model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(4) #8)  # (16)
+            model.steps.load_image, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(4)  # 8)  # (16)
 
         for img, path in image_dataset:
             batch_features = model.image_features_extract_model(img)

@@ -46,15 +46,16 @@ class Evaluator:
             return test_images[:max], test_labels[:max]
 
     @staticmethod
-    def load_test(dataset='test'):
+    def load_test(dataset):
         return Evaluator.load_from_path('../test-data/' + dataset, max=None)
 
-    def evaluate_test_data(self, dataset='test', plot_attention=False):
+    def evaluate_test_data(self, dataset, plot_attention=False):
         result_acc = []
         print('evaluating dataset ', dataset)
-        ac, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(dataset), self._len,
+        ac, cer, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(dataset), self._len,
                                                          plot_attention=plot_attention)
-        result_acc.append((ac, 'test'))
+        result_acc.append((ac, cer, dataset))
+        return result_acc
 
     def evaluate_all_data(self, images, labels, maxlen, plot_attention=False):
         result = []
@@ -82,8 +83,9 @@ class Evaluator:
             });
 
         # calcula a acurácia para cada tamanho
-        print('--------------< Indice por tamanho de sequencia >----------------------------')
+        # print('--------------< Indice por tamanho de sequencia >----------------------------')
         result_ac = []
+        result_cer = []
         for _len in range(1, maxlen + 1):
             m = tf.keras.metrics.Accuracy()
 
@@ -94,8 +96,9 @@ class Evaluator:
                     self.model.tokenizer.texts_to_sequences(labels[i])[:useLen],
                     self.model.tokenizer.texts_to_sequences(result[i])[:useLen])
 
-            print('len', _len, 'accuracy', float(m.result()), 'cir', cir_set(labels, result, _len))
+            # print('len', _len, 'accuracy', float(m.result()), 'cir', cir_set(labels, result, _len))
             result_ac.append(float(m.result()))
+            result_cer.append(float(cir_set(labels, result, _len)))
 
         if plot_attention:
             # ordena, da pior para melhor
@@ -110,4 +113,4 @@ class Evaluator:
                 self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
 
         predicted = result
-        return result_ac, predicted, labels
+        return result_ac, result_cer, predicted, labels
