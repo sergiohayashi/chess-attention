@@ -1,3 +1,5 @@
+import json
+
 from evaluator import Evaluator
 from models import AttentionEncoderDecoderModel
 import zipfile
@@ -59,9 +61,9 @@ class ModelPredictController:
         result = self.model.steps.evaluate(imagePath)
         return result
 
-    def evaluateForTest(self,  dataset='test', plot_attention=False, _len=4):
+    def evaluateForTest(self, dataset='test', plot_attention=False, _len=4):
         evaluator = Evaluator(self.model, _len)
-        evaluator.evaluate_test_data( dataset, plot_attention)
+        return evaluator.evaluate_test_data(dataset, plot_attention)
 
     def predictZip(self):
         pass
@@ -94,6 +96,14 @@ def uncompressToFolder(zipFile, uncompressFolder):
     with zipfile.ZipFile(zipFile, 'r') as zip_ref:
         zip_ref.extractall(uncompressFolder)
     print('unzipping ', zipFile, ' to ', uncompressFolder, ' done!')
+
+
+def save_train_log(trainName, logs):
+    logFile = '../train-folder/log/' + trainName + ".txt"
+    with open(logFile, 'w') as file:
+        for log in logs:
+            file.write(json.dumps(log)+ '\n')
+    print('arquivo de log gerado em ', logFile)
 
 
 class ModelTrainController:
@@ -134,7 +144,7 @@ class ModelTrainController:
     # TODO: refatorar. Reeptido de PredictController
     def evaluateForTest(self, dataset='test', _len=4):
         evaluator = Evaluator(self.model, _len)
-        evaluator.evaluate_test_data(dataset)
+        return evaluator.evaluate_test_data(dataset)
 
     def prepareDatasetForTrain(self, datasetZipFileOrFolder, use_sample=(0.1, 0.1)):
         # uncompress for train
@@ -150,9 +160,9 @@ class ModelTrainController:
         self.trainer.prepareFilesForTrain(uncompressFolder, use_sample)
         print('Dataset from zip file ', datasetZipFileOrFolder, ' ready for training')
 
-    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none'):
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
         print('starting trainUntil ', target_loss, min_max_epoch, train_name)
-        self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name)
+        self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name, test_set=test_set)
         print('starting trainUntil ', target_loss, min_max_epoch, train_name, ' DONE!')
 
     def save(self, trainName):
@@ -165,7 +175,7 @@ class ModelTrainController:
         return self.model.steps.checkpointExists(checkPointPath)
 
     def trainOrContinueForCurriculum(self, curriculumName, levelsDatasetZipFiles,
-                                     target_loss, target_acc, min_max_epoch, use_sample=(0.1, 0.1), lens=[4]):
+                                     target_loss, target_acc, min_max_epoch, use_sample=(0.1, 0.1), lens=[4], test_set=None):
 
         if self.levelCheckpointExists(curriculumName):
             print('treino já finalizado. Checkpoint em ', self.levelCheckpointExists(curriculumName));
@@ -183,13 +193,16 @@ class ModelTrainController:
                 # caso contrario, faz o treinamento
                 print('treino para ', checkpointName, ' NAO realizado. Realiza treinamento.')
                 self.prepareDatasetForTrain(levelZipFile, use_sample)
-                self.trainUntil(target_loss, target_acc, min_max_epoch, lens, checkpointName)
+                self.trainUntil(target_loss, target_acc, min_max_epoch, lens, checkpointName, test_set)
                 self.save(checkpointName)
                 skip = False
 
                 # valida no testset, até o tamanho maximo infoamdo
-                evaluator = Evaluator(self.model, target_len=lens[-1])
-                evaluator.evaluate_test_data()
+                # evaluator = Evaluator(self.model, target_len=lens[-1])
+                # test_acc = evaluator.evaluate_test_data('teste' if self.NUM_LINHAS == 2 else 'test-8lines')
+
+                # salva em aquivo
+                save_train_log(checkpointName, self.trainer.logs)
 
         self.save(curriculumName)
         print('treinamento de curriculo finalizado com sucesso!')
