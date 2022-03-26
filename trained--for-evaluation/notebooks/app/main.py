@@ -957,8 +957,54 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_10k_cont_2_():
     print("FINALIZADO TESTE => ", train_name)
 
 
+def train_8_lines_comparativo_20211106_handwritten_teacher_10k_cont_hebraica_():
+    # lens = [1, 2, 4, 8, 12, 15, 16]
+    lens = [16]
+    niveis = [
+        '../train-folder/dataset/-8linhas-handwritten--5k--with-hebraica-.zip',
+    ]
+    NUM_LINES = 8
+
+    train_name = "train_comparativo_20211106_handwritten_teacher_10k_ref-hebraica_"
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model.load()
+    model.restoreFromCheckpointName(
+        'train_comparativo_20211106_handwritten_teacher_10k_')
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       niveis, 0.07, 0.97,
+                                       (1, 100),
+                                       (5109, 500),
+                                       lens=lens,
+                                       test_set='test-8lines'
+                                       )
+    # model.evaluateForTest('tes t-8lines', _len=16)
+    print("FINALIZADO TESTE => ", train_name)
+
+def train_8_lines_comparativo_20211106_handwritten_teacher_10k_500epoch():
+    lens = [16]
+    niveis = [
+        '../train-folder/dataset/-8linhas-handwritten--10k.zip',
+    ]
+    NUM_LINES = 8
+    train_name = "train_comparativo_20211106_handwritten_teacher_10k_500epoch_"
+
+    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model.load()
+    model.restoreFromCheckpointName(
+        'train_comparativo_20211106_handwritten_teacher_10k_')
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum(train_name,
+                                       niveis, 0.000001, 1.0,
+                                       (1, 500),
+                                       (10000, 1000),
+                                       lens=lens,
+                                       test_set='test-8lines'
+                                       )
+    print("FINALIZADO TESTE => ", train_name)
 
 if __name__ == '__main__':
     print('PyCharm')
 
-    train_8_lines_comparativo_20211106_handwritten_teacher_10k_cont_2_()
+    train_8_lines_comparativo_20211106_handwritten_teacher_10k_500epoch()

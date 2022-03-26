@@ -1,4 +1,5 @@
 import os
+from _ast import expr
 from glob import glob
 from pathlib import Path
 
@@ -13,14 +14,14 @@ def cir_word(hp, gt):
     return distance.edit_distance(hp, gt) / len(gt)
 
 
-def cir_line(expected, predicted):
-    return tf.reduce_mean([cir_word(e, p) for (e, p) in zip(expected, predicted)]).numpy()
+def cir_line(predicted, expected):
+    return tf.reduce_mean([cir_word(p, e) for (p, e) in zip(predicted, expected)]).numpy()
 
 
-def cir_set(labels, result, _len=None):
+def cir_set(result, labels, _len=None):
     if _len is None:
         _len = len(labels)
-    return tf.reduce_mean([cir_line(e[:_len], p[:_len]) for (e, p) in zip(labels, result)]).numpy()
+    return tf.reduce_mean([cir_line(p[:_len], e[:_len]) for (p, e) in zip(result, labels)]).numpy()
 
 
 class Evaluator:
@@ -53,7 +54,7 @@ class Evaluator:
         result_acc = []
         print('evaluating dataset ', dataset)
         ac, cer, predicted, expected = self.evaluate_all_data(*Evaluator.load_test(dataset), self._len,
-                                                         plot_attention=plot_attention)
+                                                              plot_attention=plot_attention)
         result_acc.append((ac, cer, dataset))
         return result_acc
 
@@ -79,7 +80,7 @@ class Evaluator:
                 'prediction': r,
                 'attention': attention_plot,
                 'acc': float(m.result()),
-                'cer': cir_set([labels[i]], [r], maxlen)
+                'cer': cir_set([r], [labels[i]], maxlen)
             });
 
         # calcula a acurácia para cada tamanho
@@ -98,7 +99,7 @@ class Evaluator:
 
             # print('len', _len, 'accuracy', float(m.result()), 'cir', cir_set(labels, result, _len))
             result_ac.append(float(m.result()))
-            result_cer.append(float(cir_set(labels, result, _len)))
+            result_cer.append(float(cir_set(result, labels, _len)))
 
         if plot_attention:
             # ordena, da pior para melhor
