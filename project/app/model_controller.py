@@ -103,8 +103,19 @@ def save_train_log(trainName, logs):
     logFile = TRAIN_FOLDER + '/log/' + trainName + ".txt"
     with open(logFile, 'w') as file:
         for log in logs:
-            file.write(json.dumps(log)+ '\n')
+            file.write(json.dumps(log) + '\n')
     print('arquivo de log gerado em ', logFile)
+
+
+class Saver:
+    def __init__(self, trainName, model):
+        self.trainName = trainName
+        self.model = model
+
+    def __call__(self):
+        checkPointPath = TRAIN_FOLDER + '/checkpoints/' + self.trainName
+        self.model.steps.saveCheckpointTo(checkPointPath)
+        print('checkpoint saved to ' + checkPointPath)
 
 
 class ModelTrainController:
@@ -143,7 +154,7 @@ class ModelTrainController:
         evaluator = Evaluator(self.model, _len)
         return evaluator.evaluate_test_data(dataset)
 
-    def prepareDatasetForTrain(self, datasetZipFileOrFolder, sampled= False, use_sample=(0.1, 0.1)):
+    def prepareDatasetForTrain(self, datasetZipFileOrFolder, sampled=False, use_sample=(0.1, 0.1)):
         # uncompress for train
 
         if datasetZipFileOrFolder.endswith('.zip'):
@@ -158,8 +169,11 @@ class ModelTrainController:
         print('Dataset from zip file ', datasetZipFileOrFolder, ' ready for training')
 
     def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
+        saver = Saver(trainName=train_name, model=self.model)
         print('starting trainUntil ', target_loss, min_max_epoch, train_name)
-        self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name, test_set=test_set)
+        self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name, test_set=test_set,
+                                saver=saver)
+
         print('starting trainUntil ', target_loss, min_max_epoch, train_name, ' DONE!')
 
     def save(self, trainName):
@@ -177,7 +191,7 @@ class ModelTrainController:
                                      target_loss,
                                      target_acc,
                                      min_max_epoch,
-                                     sampled = False,
+                                     sampled=False,
                                      use_sample=(0.1, 0.1), lens=[4], test_set=None):
 
         if self.levelCheckpointExists(curriculumName):

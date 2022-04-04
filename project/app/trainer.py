@@ -1,6 +1,9 @@
 import json
+from os.path import exists
 
 import tensorflow as tf
+
+import config
 import utils
 import numpy as np
 import os
@@ -14,6 +17,10 @@ from evaluator import Evaluator
 device_name = tf.test.gpu_device_name()
 print('Found GPU at: {}'.format(device_name))
 print(tf.__version__)
+
+
+def stop_requested():
+    return exists(config.STOP_FILE)
 
 
 class TrainerController:
@@ -47,7 +54,7 @@ class TrainerController:
         minutes, seconds = divmod(rem, 60)
         print("{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), seconds))
 
-    def prepareFilesForTrain(self, folder, sampled= False, use_sample=(0.1, 0.1)):
+    def prepareFilesForTrain(self, folder, sampled=False, use_sample=(0.1, 0.1)):
         """
             Prepare dataset
         :param folder:
@@ -57,10 +64,12 @@ class TrainerController:
         # load test data
         print('loading train data...');
         train_img_names, train_label_indexes, train_label_words = DataHelper.load_data_from(
-            folder + '/train', self.model.tokenizer, use_sample[0] if sampled else None)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
+            folder + '/train', self.model.tokenizer,
+            use_sample[0] if sampled else None)  # '/content/dataset-v035--2lines-32k-v5.1.1/train')
         print('loading valid data...');
         valid_img_names, valid_label_indexes, valid_label_words = DataHelper.load_data_from(
-            folder + '/valid', self.model.tokenizer, use_sample[1] if sampled else None)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
+            folder + '/valid', self.model.tokenizer,
+            use_sample[1] if sampled else None)  # '/content/dataset-v035--2lines-32k-v5.1.1/valid')
 
         # build cache
         print('building cache for train data...');
@@ -79,15 +88,23 @@ class TrainerController:
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
         print('building final dataset done');
 
-    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
+    def elapsed_training_time_in_hour(self):
+        now = time.time()
+        hours, rem = divmod(now - self.tstart, 3600)
+        return hours
+
+
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None,
+                   saver=None, max_hour= None):
         for _len in lens:
             self.train_more(min_max_epoch, target_loss, target_acc,
                             self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps,
-                            _len, train_name, test_set=test_set)
+                            _len, train_name, test_set=test_set, saver=saver, max_hour = max_hour)
 
     def train_more(self, min_max_epoch, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
-                   train_length=4, train_name='none', val_loss_limit=0, test_set=None):  # , n_epoch):
+                   train_length=4, train_name='none', val_loss_limit=0, test_set=None, max_hour= None,
+                   saver=None):  # , n_epoch):
 
         MIN_EPOCH, MAX_EPOCH = min_max_epoch
 
@@ -131,22 +148,23 @@ class TrainerController:
             # testa também no test_set, se informado..
             #
             if test_set:
-                test_acc = Evaluator(self.model, target_len=train_length).evaluate_test_data( test_set)
+                test_acc = Evaluator(self.model, target_len=train_length).evaluate_test_data(test_set)
             else:
                 test_acc = None
 
             #
             # print..
             #
-            print('Epoch {} len={} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ] test_acc:{} - {}'.format(
-                self._epoch,
-                train_length,
-                train_loss,
-                train_acc,
-                valid_loss,
-                valid_acc,
-                json.dumps( test_acc),
-                train_name))
+            print(
+                'Epoch {} len={} Loss {:.6f}  acc: {:.4f} [ Validation Loss {:.6f} valid_acc: {:.4f} ] test_acc:{} - {}'.format(
+                    self._epoch,
+                    train_length,
+                    train_loss,
+                    train_acc,
+                    valid_loss,
+                    valid_acc,
+                    json.dumps(test_acc),
+                    train_name))
             print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
             self.print_time()
 
@@ -177,6 +195,18 @@ class TrainerController:
             if 0 < target_acc <= train_acc:
                 print("Target acc reached! stop!", ' len= ', train_length)
                 return True
+
+            if stop_requested():
+                print('stop requested!')
+                return True
+
+            if max_hour is not None and self.elapsed_training_time_in_hour()>= max_hour:
+                print("Max training time reached! stop!", self.elapsed_training_time_in_hour(),  'h')
+                return True
+
+            if saver:
+                saver()
+
 
         print('epoch exceeded')
         return False

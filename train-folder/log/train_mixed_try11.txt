@@ -1,0 +1,1037 @@
+C:\mestrado\repos\mestrado\local_training\venv\Scripts\python.exe C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks/app/main.py
+2021-07-19 16:48:07.352841: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cudart64_110.dll
+2021-07-19 16:48:14.303537: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-07-19 16:48:14.321120: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library nvcuda.dll
+2021-07-19 16:48:14.382840: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:14.383092: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cudart64_110.dll
+2021-07-19 16:48:14.470535: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cublas64_11.dll
+2021-07-19 16:48:14.470680: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cublasLt64_11.dll
+2021-07-19 16:48:14.502003: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cufft64_10.dll
+2021-07-19 16:48:14.512413: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library curand64_10.dll
+2021-07-19 16:48:14.541163: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cusolver64_11.dll
+2021-07-19 16:48:14.568921: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cusparse64_11.dll
+2021-07-19 16:48:14.582584: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cudnn64_8.dll
+2021-07-19 16:48:14.582777: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+Found GPU at: /device:GPU:0
+2021-07-19 16:48:15.091185: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-19 16:48:15.091348: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-19 16:48:15.091435: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-19 16:48:15.091717: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/device:GPU:0 with 3961 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+2.5.0
+2021-07-19 16:48:17.312180: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:17.312471: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-19 16:48:17.312652: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-19 16:48:17.312994: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-19 16:48:17.313119: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-19 16:48:17.313313: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/device:GPU:0 with 3961 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+Found GPU at: /device:GPU:0
+2.5.0
+Found GPU at: /device:GPU:0
+Found GPU at: /device:GPU:0
+2.5.0
+PyCharm
+building...
+total do vocabularario=  179
+VOCAB_SIZE 180
+2021-07-19 16:48:17.313807: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:17.314062: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-19 16:48:17.314183: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-19 16:48:17.314319: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-19 16:48:17.314402: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-19 16:48:17.314529: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/device:GPU:0 with 3961 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+2021-07-19 16:48:17.318763: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:17.319052: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-19 16:48:17.319184: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-19 16:48:17.319319: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-19 16:48:17.319401: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-19 16:48:17.319541: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/device:GPU:0 with 3961 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+2021-07-19 16:48:17.325581: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:17.325867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-19 16:48:17.326292: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:01:00.0 name: GeForce RTX 2060 computeCapability: 7.5
+coreClock: 1.695GHz coreCount: 30 deviceMemorySize: 6.00GiB deviceMemoryBandwidth: 312.97GiB/s
+2021-07-19 16:48:17.326589: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-19 16:48:17.326724: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-19 16:48:17.326859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-19 16:48:17.326941: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-19 16:48:17.327083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3961 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+treino para  curriculum-mixed-try11--mixed  NAO realizado. Realiza treinamento.
+preparing dataset from zip file  ../train-folder/dataset/mixed.zip
+../train-folder/tmp/mixed  already exists. Skip uncompress..
+loading train data...
+loading data from  ../train-folder/tmp/mixed/train
+USE_SAMPLE =  25000
+USE_SAMPLE N=  21512
+SAMPLED!!  size=  21512 21512
+['<start>', 'Be6', 'Nxc6', 'Nge2', 'gxf6', '<end>'] => [2, 155, 28, 120, 60, 178]
+['<start>', 'e4', 'c5', 'Nf3', 'Nc6', '<end>'] => [2, 3, 6, 71, 57, 178]
+['<start>', 'f5', 'Qd3', 'cxd5', 'Re1', '<end>'] => [2, 76, 69, 102, 10, 178]
+loading valid data...
+loading data from  ../train-folder/tmp/mixed/valid
+USE_SAMPLE =  500
+USE_SAMPLE N=  500
+SAMPLED!!  size=  500 500
+['<start>', 'cxd5', 'gxf6', 'e6', 'Nd2', '<end>'] => [2, 102, 60, 96, 95, 178]
+['<start>', 'd4', 'Nf6', 'Nf3', 'g6', '<end>'] => [2, 47, 169, 71, 86, 178]
+['<start>', 'Ne4', 'Qxe4+', 'Qxd4', 'f4', '<end>'] => [2, 72, 31, 162, 91, 178]
+building cache for train data...
+before 21512
+after 0
+building cache for valid data...
+before 500
+after 0
+building final dataset...
+building final dataset done
+Dataset from zip file  ../train-folder/dataset/mixed.zip  ready for training
+starting trainUntil  0.01 50
+-- loss_target=> 0.01  train_length= 4
+2021-07-19 16:48:34.125148: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:176] None of the MLIR Optimization Passes are enabled (registered 2)
+2021-07-19 16:48:42.192281: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cudnn64_8.dll
+2021-07-19 16:48:43.263704: I tensorflow/stream_executor/cuda/cuda_dnn.cc:359] Loaded cuDNN version 8200
+2021-07-19 16:48:43.689583: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cublas64_11.dll
+2021-07-19 16:48:44.253438: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library cublasLt64_11.dll
+Epoch 1 Batch 0 Loss 5.1886
+Epoch 1 Batch 50 Loss 4.6428
+Epoch 1 Batch 100 Loss 4.1384
+Epoch 1 Batch 150 Loss 4.0514
+Epoch 1 Batch 200 Loss 4.0283
+Epoch 1 Batch 250 Loss 3.4132
+Epoch 1 Batch 300 Loss 3.8646
+Epoch 1 Batch 350 Loss 3.0241
+Epoch 1 Batch 400 Loss 2.4326
+Epoch 1 Batch 450 Loss 1.3222
+Epoch 1 Batch 500 Loss 1.5564
+Epoch 1 Batch 550 Loss 1.5540
+Epoch 1 Batch 600 Loss 1.0515
+Epoch 1 Batch 650 Loss 0.8438
+Epoch 1 Loss 2.809784  acc: 0.3380 [ Validation Loss 1.146322 valid_acc: 0.6675 ]
+Time taken for 1 epoch 186.97601127624512 sec
+
+00:03:23.35
+Epoch 2 Batch 0 Loss 0.9904
+Epoch 2 Batch 50 Loss 0.7132
+Epoch 2 Batch 100 Loss 0.9219
+Epoch 2 Batch 150 Loss 0.8372
+Epoch 2 Batch 200 Loss 0.7774
+Epoch 2 Batch 250 Loss 0.6945
+Epoch 2 Batch 300 Loss 0.8485
+Epoch 2 Batch 350 Loss 0.5892
+Epoch 2 Batch 400 Loss 0.5177
+Epoch 2 Batch 450 Loss 0.5366
+Epoch 2 Batch 500 Loss 0.5175
+Epoch 2 Batch 550 Loss 0.4817
+Epoch 2 Batch 600 Loss 0.4477
+Epoch 2 Batch 650 Loss 0.3917
+Epoch 2 Loss 0.625199  acc: 0.7969 [ Validation Loss 0.470219 valid_acc: 0.7590 ]
+Time taken for 1 epoch 167.40477561950684 sec
+
+00:06:10.76
+Epoch 3 Batch 0 Loss 0.3794
+Epoch 3 Batch 50 Loss 0.4546
+Epoch 3 Batch 100 Loss 0.3934
+Epoch 3 Batch 150 Loss 0.2887
+Epoch 3 Batch 200 Loss 0.2894
+Epoch 3 Batch 250 Loss 0.3795
+Epoch 3 Batch 300 Loss 0.4002
+Epoch 3 Batch 350 Loss 0.1198
+Epoch 3 Batch 400 Loss 0.2284
+Epoch 3 Batch 450 Loss 0.2330
+Epoch 3 Batch 500 Loss 0.2592
+Epoch 3 Batch 550 Loss 0.2240
+Epoch 3 Batch 600 Loss 0.3058
+Epoch 3 Batch 650 Loss 0.2934
+Epoch 3 Loss 0.297471  acc: 0.9010 [ Validation Loss 0.448616 valid_acc: 0.7930 ]
+Time taken for 1 epoch 167.02190494537354 sec
+
+00:08:57.78
+Epoch 4 Batch 0 Loss 0.1566
+Epoch 4 Batch 50 Loss 0.1891
+Epoch 4 Batch 100 Loss 0.1690
+Epoch 4 Batch 150 Loss 0.1414
+Epoch 4 Batch 200 Loss 0.1743
+Epoch 4 Batch 250 Loss 0.1684
+Epoch 4 Batch 300 Loss 0.1152
+Epoch 4 Batch 350 Loss 0.1779
+Epoch 4 Batch 400 Loss 0.1691
+Epoch 4 Batch 450 Loss 0.2015
+Epoch 4 Batch 500 Loss 0.2070
+Epoch 4 Batch 550 Loss 0.1582
+Epoch 4 Batch 600 Loss 0.1846
+Epoch 4 Batch 650 Loss 0.0998
+Epoch 4 Loss 0.181055  acc: 0.9383 [ Validation Loss 0.394273 valid_acc: 0.8179 ]
+Time taken for 1 epoch 167.16783738136292 sec
+
+00:11:44.95
+Epoch 5 Batch 0 Loss 0.1365
+Epoch 5 Batch 50 Loss 0.1373
+Epoch 5 Batch 100 Loss 0.1000
+Epoch 5 Batch 150 Loss 0.1372
+Epoch 5 Batch 200 Loss 0.1731
+Epoch 5 Batch 250 Loss 0.0695
+Epoch 5 Batch 300 Loss 0.1043
+Epoch 5 Batch 350 Loss 0.1301
+Epoch 5 Batch 400 Loss 0.1118
+Epoch 5 Batch 450 Loss 0.1086
+Epoch 5 Batch 500 Loss 0.1174
+Epoch 5 Batch 550 Loss 0.1811
+Epoch 5 Batch 600 Loss 0.0597
+Epoch 5 Batch 650 Loss 0.1038
+Epoch 5 Loss 0.128842  acc: 0.9562 [ Validation Loss 0.381350 valid_acc: 0.8342 ]
+Time taken for 1 epoch 171.9147617816925 sec
+
+00:14:36.86
+Epoch 6 Batch 0 Loss 0.1550
+Epoch 6 Batch 50 Loss 0.0708
+Epoch 6 Batch 100 Loss 0.1185
+Epoch 6 Batch 150 Loss 0.0957
+Epoch 6 Batch 200 Loss 0.1279
+Epoch 6 Batch 250 Loss 0.1207
+Epoch 6 Batch 300 Loss 0.0983
+Epoch 6 Batch 350 Loss 0.1308
+Epoch 6 Batch 400 Loss 0.0485
+Epoch 6 Batch 450 Loss 0.0689
+Epoch 6 Batch 500 Loss 0.0485
+Epoch 6 Batch 550 Loss 0.1193
+Epoch 6 Batch 600 Loss 0.1367
+Epoch 6 Batch 650 Loss 0.1157
+Epoch 6 Loss 0.108659  acc: 0.9633 [ Validation Loss 0.420388 valid_acc: 0.8443 ]
+Time taken for 1 epoch 173.88055539131165 sec
+
+00:17:30.74
+Epoch 7 Batch 0 Loss 0.0758
+Epoch 7 Batch 50 Loss 0.1296
+Epoch 7 Batch 100 Loss 0.0813
+Epoch 7 Batch 150 Loss 0.1105
+Epoch 7 Batch 200 Loss 0.1742
+Epoch 7 Batch 250 Loss 0.0833
+Epoch 7 Batch 300 Loss 0.0414
+Epoch 7 Batch 350 Loss 0.0940
+Epoch 7 Batch 400 Loss 0.1468
+Epoch 7 Batch 450 Loss 0.1026
+Epoch 7 Batch 500 Loss 0.1184
+Epoch 7 Batch 550 Loss 0.0501
+Epoch 7 Batch 600 Loss 0.0940
+Epoch 7 Batch 650 Loss 0.0657
+Epoch 7 Loss 0.081663  acc: 0.9723 [ Validation Loss 0.376883 valid_acc: 0.8551 ]
+Time taken for 1 epoch 178.93883633613586 sec
+
+00:20:29.68
+Epoch 8 Batch 0 Loss 0.0668
+Epoch 8 Batch 50 Loss 0.1106
+Epoch 8 Batch 100 Loss 0.0404
+Epoch 8 Batch 150 Loss 0.0414
+Epoch 8 Batch 200 Loss 0.1084
+Epoch 8 Batch 250 Loss 0.0607
+Epoch 8 Batch 300 Loss 0.4609
+Epoch 8 Batch 350 Loss 0.1529
+Epoch 8 Batch 400 Loss 0.1304
+Epoch 8 Batch 450 Loss 0.0848
+Epoch 8 Batch 500 Loss 0.1096
+Epoch 8 Batch 550 Loss 0.0626
+Epoch 8 Batch 600 Loss 0.0864
+Epoch 8 Batch 650 Loss 0.0188
+Epoch 8 Loss 0.109684  acc: 0.9646 [ Validation Loss 0.392292 valid_acc: 0.8616 ]
+Time taken for 1 epoch 174.19048929214478 sec
+
+00:23:23.87
+Epoch 9 Batch 0 Loss 0.0762
+Epoch 9 Batch 50 Loss 0.0871
+Epoch 9 Batch 100 Loss 0.0358
+Epoch 9 Batch 150 Loss 0.0311
+Epoch 9 Batch 200 Loss 0.0638
+Epoch 9 Batch 250 Loss 0.0552
+Epoch 9 Batch 300 Loss 0.0332
+Epoch 9 Batch 350 Loss 0.0198
+Epoch 9 Batch 400 Loss 0.1372
+Epoch 9 Batch 450 Loss 0.0078
+Epoch 9 Batch 500 Loss 0.0640
+Epoch 9 Batch 550 Loss 0.0404
+Epoch 9 Batch 600 Loss 0.0438
+Epoch 9 Batch 650 Loss 0.0343
+Epoch 9 Loss 0.063292  acc: 0.9788 [ Validation Loss 0.452747 valid_acc: 0.8667 ]
+Time taken for 1 epoch 172.470933675766 sec
+
+00:26:16.34
+Epoch 10 Batch 0 Loss 0.0612
+Epoch 10 Batch 50 Loss 0.0762
+Epoch 10 Batch 100 Loss 0.0197
+Epoch 10 Batch 150 Loss 0.0236
+Epoch 10 Batch 200 Loss 0.0945
+Epoch 10 Batch 250 Loss 0.1534
+Epoch 10 Batch 300 Loss 0.0556
+Epoch 10 Batch 350 Loss 0.0246
+Epoch 10 Batch 400 Loss 0.0396
+Epoch 10 Batch 450 Loss 0.0284
+Epoch 10 Batch 500 Loss 0.0735
+Epoch 10 Batch 550 Loss 0.2199
+Epoch 10 Batch 600 Loss 0.1534
+Epoch 10 Batch 650 Loss 0.0590
+Epoch 10 Loss 0.067826  acc: 0.9778 [ Validation Loss 0.480793 valid_acc: 0.8694 ]
+Time taken for 1 epoch 169.4092662334442 sec
+
+00:29:05.75
+Epoch 11 Batch 0 Loss 0.0470
+Epoch 11 Batch 50 Loss 0.0746
+Epoch 11 Batch 100 Loss 0.0209
+Epoch 11 Batch 150 Loss 0.0765
+Epoch 11 Batch 200 Loss 0.0832
+Epoch 11 Batch 250 Loss 0.0700
+Epoch 11 Batch 300 Loss 0.0322
+Epoch 11 Batch 350 Loss 0.0269
+Epoch 11 Batch 400 Loss 0.1362
+Epoch 11 Batch 450 Loss 0.1173
+Epoch 11 Batch 500 Loss 0.0543
+Epoch 11 Batch 550 Loss 0.0215
+Epoch 11 Batch 600 Loss 0.0620
+Epoch 11 Batch 650 Loss 0.0609
+Epoch 11 Loss 0.070866  acc: 0.9763 [ Validation Loss 0.423342 valid_acc: 0.8732 ]
+Time taken for 1 epoch 170.39142417907715 sec
+
+00:31:56.15
+Epoch 12 Batch 0 Loss 0.0518
+Epoch 12 Batch 50 Loss 0.0303
+Epoch 12 Batch 100 Loss 0.0664
+Epoch 12 Batch 150 Loss 0.0760
+Epoch 12 Batch 200 Loss 0.0193
+Epoch 12 Batch 250 Loss 0.0126
+Epoch 12 Batch 300 Loss 0.0615
+Epoch 12 Batch 350 Loss 0.0667
+Epoch 12 Batch 400 Loss 0.0882
+Epoch 12 Batch 450 Loss 0.0197
+Epoch 12 Batch 500 Loss 0.0710
+Epoch 12 Batch 550 Loss 0.0438
+Epoch 12 Batch 600 Loss 0.1162
+Epoch 12 Batch 650 Loss 0.0701
+Epoch 12 Loss 0.049689  acc: 0.9835 [ Validation Loss 0.403083 valid_acc: 0.8766 ]
+Time taken for 1 epoch 170.74965596199036 sec
+
+00:34:46.90
+Epoch 13 Batch 0 Loss 0.0763
+Epoch 13 Batch 50 Loss 0.0227
+Epoch 13 Batch 100 Loss 0.1150
+Epoch 13 Batch 150 Loss 0.0610
+Epoch 13 Batch 200 Loss 0.0568
+Epoch 13 Batch 250 Loss 0.0438
+Epoch 13 Batch 300 Loss 0.0342
+Epoch 13 Batch 350 Loss 0.1415
+Epoch 13 Batch 400 Loss 0.0915
+Epoch 13 Batch 450 Loss 0.0997
+Epoch 13 Batch 500 Loss 0.1175
+Epoch 13 Batch 550 Loss 0.1137
+Epoch 13 Batch 600 Loss 0.0251
+Epoch 13 Batch 650 Loss 0.0148
+Epoch 13 Loss 0.057106  acc: 0.9812 [ Validation Loss 0.430256 valid_acc: 0.8796 ]
+Time taken for 1 epoch 173.64245867729187 sec
+
+00:37:40.54
+Epoch 14 Batch 0 Loss 0.0078
+Epoch 14 Batch 50 Loss 0.0937
+Epoch 14 Batch 100 Loss 0.0419
+Epoch 14 Batch 150 Loss 0.1154
+Epoch 14 Batch 200 Loss 0.0600
+Epoch 14 Batch 250 Loss 0.0648
+Epoch 14 Batch 300 Loss 0.0567
+Epoch 14 Batch 350 Loss 0.1226
+Epoch 14 Batch 400 Loss 0.0188
+Epoch 14 Batch 450 Loss 0.0372
+Epoch 14 Batch 500 Loss 0.0194
+Epoch 14 Batch 550 Loss 0.0281
+Epoch 14 Batch 600 Loss 0.0367
+Epoch 14 Batch 650 Loss 0.0114
+Epoch 14 Loss 0.060235  acc: 0.9810 [ Validation Loss 0.427446 valid_acc: 0.8820 ]
+Time taken for 1 epoch 172.87383675575256 sec
+
+00:40:33.41
+Epoch 15 Batch 0 Loss 0.0468
+Epoch 15 Batch 50 Loss 0.0100
+Epoch 15 Batch 100 Loss 0.0430
+Epoch 15 Batch 150 Loss 0.0740
+Epoch 15 Batch 200 Loss 0.0032
+Epoch 15 Batch 250 Loss 0.0126
+Epoch 15 Batch 300 Loss 0.0456
+Epoch 15 Batch 350 Loss 0.0708
+Epoch 15 Batch 400 Loss 0.0083
+Epoch 15 Batch 450 Loss 0.0326
+Epoch 15 Batch 500 Loss 0.0192
+Epoch 15 Batch 550 Loss 0.0052
+Epoch 15 Batch 600 Loss 0.0491
+Epoch 15 Batch 650 Loss 0.0439
+Epoch 15 Loss 0.043574  acc: 0.9857 [ Validation Loss 0.473081 valid_acc: 0.8840 ]
+Time taken for 1 epoch 172.5469150543213 sec
+
+00:43:25.96
+Epoch 16 Batch 0 Loss 0.1215
+Epoch 16 Batch 50 Loss 0.0476
+Epoch 16 Batch 100 Loss 0.0292
+Epoch 16 Batch 150 Loss 0.0160
+Epoch 16 Batch 200 Loss 0.0958
+Epoch 16 Batch 250 Loss 0.0489
+Epoch 16 Batch 300 Loss 0.0593
+Epoch 16 Batch 350 Loss 0.0798
+Epoch 16 Batch 400 Loss 0.0408
+Epoch 16 Batch 450 Loss 0.0524
+Epoch 16 Batch 500 Loss 0.0313
+Epoch 16 Batch 550 Loss 0.0527
+Epoch 16 Batch 600 Loss 0.1010
+Epoch 16 Batch 650 Loss 0.0200
+Epoch 16 Loss 0.052189  acc: 0.9831 [ Validation Loss 0.394927 valid_acc: 0.8863 ]
+Time taken for 1 epoch 172.0091712474823 sec
+
+00:46:17.97
+Epoch 17 Batch 0 Loss 0.0137
+Epoch 17 Batch 50 Loss 0.0471
+Epoch 17 Batch 100 Loss 0.0187
+Epoch 17 Batch 150 Loss 0.0282
+Epoch 17 Batch 200 Loss 0.0549
+Epoch 17 Batch 250 Loss 0.0598
+Epoch 17 Batch 300 Loss 0.0220
+Epoch 17 Batch 350 Loss 0.0710
+Epoch 17 Batch 400 Loss 0.0425
+Epoch 17 Batch 450 Loss 0.0798
+Epoch 17 Batch 500 Loss 0.0330
+Epoch 17 Batch 550 Loss 0.0745
+Epoch 17 Batch 600 Loss 0.0064
+Epoch 17 Batch 650 Loss 0.0274
+Epoch 17 Loss 0.041227  acc: 0.9866 [ Validation Loss 0.386913 valid_acc: 0.8886 ]
+Time taken for 1 epoch 172.41777896881104 sec
+
+00:49:10.39
+Epoch 18 Batch 0 Loss 0.0189
+Epoch 18 Batch 50 Loss 0.0132
+Epoch 18 Batch 100 Loss 0.0203
+Epoch 18 Batch 150 Loss 0.0763
+Epoch 18 Batch 200 Loss 0.0396
+Epoch 18 Batch 250 Loss 0.0249
+Epoch 18 Batch 300 Loss 0.0458
+Epoch 18 Batch 350 Loss 0.1101
+Epoch 18 Batch 400 Loss 0.0668
+Epoch 18 Batch 450 Loss 0.0600
+Epoch 18 Batch 500 Loss 0.0736
+Epoch 18 Batch 550 Loss 0.0279
+Epoch 18 Batch 600 Loss 0.0280
+Epoch 18 Batch 650 Loss 0.0762
+Epoch 18 Loss 0.051877  acc: 0.9836 [ Validation Loss 0.347468 valid_acc: 0.8907 ]
+Time taken for 1 epoch 170.12818932533264 sec
+
+00:52:00.51
+Epoch 19 Batch 0 Loss 0.0066
+Epoch 19 Batch 50 Loss 0.0472
+Epoch 19 Batch 100 Loss 0.0741
+Epoch 19 Batch 150 Loss 0.0884
+Epoch 19 Batch 200 Loss 0.0086
+Epoch 19 Batch 250 Loss 0.0074
+Epoch 19 Batch 300 Loss 0.0152
+Epoch 19 Batch 350 Loss 0.0279
+Epoch 19 Batch 400 Loss 0.0242
+Epoch 19 Batch 450 Loss 0.1066
+Epoch 19 Batch 500 Loss 0.0578
+Epoch 19 Batch 550 Loss 0.0386
+Epoch 19 Batch 600 Loss 0.0633
+Epoch 19 Batch 650 Loss 0.0522
+Epoch 19 Loss 0.039997  acc: 0.9869 [ Validation Loss 0.398568 valid_acc: 0.8924 ]
+Time taken for 1 epoch 169.22267746925354 sec
+
+00:54:49.74
+Epoch 20 Batch 0 Loss 0.0255
+Epoch 20 Batch 50 Loss 0.0149
+Epoch 20 Batch 100 Loss 0.0651
+Epoch 20 Batch 150 Loss 0.0746
+Epoch 20 Batch 200 Loss 0.0269
+Epoch 20 Batch 250 Loss 0.0362
+Epoch 20 Batch 300 Loss 0.0373
+Epoch 20 Batch 350 Loss 0.0022
+Epoch 20 Batch 400 Loss 0.0913
+Epoch 20 Batch 450 Loss 0.0173
+Epoch 20 Batch 500 Loss 0.0571
+Epoch 20 Batch 550 Loss 0.1238
+Epoch 20 Batch 600 Loss 0.0780
+Epoch 20 Batch 650 Loss 0.0744
+Epoch 20 Loss 0.052789  acc: 0.9837 [ Validation Loss 0.403638 valid_acc: 0.8933 ]
+Time taken for 1 epoch 169.0602924823761 sec
+
+00:57:38.80
+Epoch 21 Batch 0 Loss 0.1701
+Epoch 21 Batch 50 Loss 0.0684
+Epoch 21 Batch 100 Loss 0.0791
+Epoch 21 Batch 150 Loss 0.0094
+Epoch 21 Batch 200 Loss 0.0645
+Epoch 21 Batch 250 Loss 0.0251
+Epoch 21 Batch 300 Loss 0.0397
+Epoch 21 Batch 350 Loss 0.0135
+Epoch 21 Batch 400 Loss 0.0493
+Epoch 21 Batch 450 Loss 0.0018
+Epoch 21 Batch 500 Loss 0.0110
+Epoch 21 Batch 550 Loss 0.0669
+Epoch 21 Batch 600 Loss 0.0096
+Epoch 21 Batch 650 Loss 0.1021
+Epoch 21 Loss 0.041511  acc: 0.9868 [ Validation Loss 0.354847 valid_acc: 0.8951 ]
+Time taken for 1 epoch 170.20529222488403 sec
+
+01:00:29.00
+Epoch 22 Batch 0 Loss 0.0133
+Epoch 22 Batch 50 Loss 0.0982
+Epoch 22 Batch 100 Loss 0.0217
+Epoch 22 Batch 150 Loss 0.0350
+Epoch 22 Batch 200 Loss 0.0063
+Epoch 22 Batch 250 Loss 0.0641
+Epoch 22 Batch 300 Loss 0.0259
+Epoch 22 Batch 350 Loss 0.0131
+Epoch 22 Batch 400 Loss 0.0030
+Epoch 22 Batch 450 Loss 0.0233
+Epoch 22 Batch 500 Loss 0.0853
+Epoch 22 Batch 550 Loss 0.0030
+Epoch 22 Batch 600 Loss 0.0267
+Epoch 22 Batch 650 Loss 0.0027
+Epoch 22 Loss 0.027742  acc: 0.9912 [ Validation Loss 0.384219 valid_acc: 0.8967 ]
+Time taken for 1 epoch 169.80830574035645 sec
+
+01:03:18.81
+Epoch 23 Batch 0 Loss 0.0307
+Epoch 23 Batch 50 Loss 0.0236
+Epoch 23 Batch 100 Loss 0.0225
+Epoch 23 Batch 150 Loss 0.0319
+Epoch 23 Batch 200 Loss 0.0042
+Epoch 23 Batch 250 Loss 0.0782
+Epoch 23 Batch 300 Loss 0.0583
+Epoch 23 Batch 350 Loss 0.0072
+Epoch 23 Batch 400 Loss 0.0180
+Epoch 23 Batch 450 Loss 0.0700
+Epoch 23 Batch 500 Loss 0.1002
+Epoch 23 Batch 550 Loss 0.0519
+Epoch 23 Batch 600 Loss 0.0305
+Epoch 23 Batch 650 Loss 0.0043
+Epoch 23 Loss 0.042843  acc: 0.9863 [ Validation Loss 0.433955 valid_acc: 0.8977 ]
+Time taken for 1 epoch 168.79036211967468 sec
+
+01:06:07.60
+Epoch 24 Batch 0 Loss 0.0688
+Epoch 24 Batch 50 Loss 0.0283
+Epoch 24 Batch 100 Loss 0.0304
+Epoch 24 Batch 150 Loss 0.0070
+Epoch 24 Batch 200 Loss 0.0222
+Epoch 24 Batch 250 Loss 0.0152
+Epoch 24 Batch 300 Loss 0.0198
+Epoch 24 Batch 350 Loss 0.0236
+Epoch 24 Batch 400 Loss 0.0061
+Epoch 24 Batch 450 Loss 0.0471
+Epoch 24 Batch 500 Loss 0.0098
+Epoch 24 Batch 550 Loss 0.0420
+Epoch 24 Batch 600 Loss 0.0166
+Epoch 24 Batch 650 Loss 0.0091
+Epoch 24 Loss 0.033202  acc: 0.9893 [ Validation Loss 0.439210 valid_acc: 0.8988 ]
+Time taken for 1 epoch 170.18141198158264 sec
+
+01:08:57.78
+Epoch 25 Batch 0 Loss 0.0885
+Epoch 25 Batch 50 Loss 0.0025
+Epoch 25 Batch 100 Loss 0.0041
+Epoch 25 Batch 150 Loss 0.0241
+Epoch 25 Batch 200 Loss 0.0457
+Epoch 25 Batch 250 Loss 0.0073
+Epoch 25 Batch 300 Loss 0.0319
+Epoch 25 Batch 350 Loss 0.0136
+Epoch 25 Batch 400 Loss 0.1118
+Epoch 25 Batch 450 Loss 0.0405
+Epoch 25 Batch 500 Loss 0.0059
+Epoch 25 Batch 550 Loss 0.0145
+Epoch 25 Batch 600 Loss 0.0054
+Epoch 25 Batch 650 Loss 0.0336
+Epoch 25 Loss 0.035501  acc: 0.9891 [ Validation Loss 0.387568 valid_acc: 0.8999 ]
+Time taken for 1 epoch 177.96736931800842 sec
+
+01:11:55.75
+Epoch 26 Batch 0 Loss 0.0133
+Epoch 26 Batch 50 Loss 0.0101
+Epoch 26 Batch 100 Loss 0.0750
+Epoch 26 Batch 150 Loss 0.0282
+Epoch 26 Batch 200 Loss 0.0337
+Epoch 26 Batch 250 Loss 0.0107
+Epoch 26 Batch 300 Loss 0.0574
+Epoch 26 Batch 350 Loss 0.0180
+Epoch 26 Batch 400 Loss 0.0300
+Epoch 26 Batch 450 Loss 0.0355
+Epoch 26 Batch 500 Loss 0.0548
+Epoch 26 Batch 550 Loss 0.0165
+Epoch 26 Batch 600 Loss 0.0647
+Epoch 26 Batch 650 Loss 0.0291
+Epoch 26 Loss 0.037498  acc: 0.9883 [ Validation Loss 0.423486 valid_acc: 0.9009 ]
+Time taken for 1 epoch 168.63013195991516 sec
+
+01:14:44.38
+Epoch 27 Batch 0 Loss 0.0546
+Epoch 27 Batch 50 Loss 0.0432
+Epoch 27 Batch 100 Loss 0.0944
+Epoch 27 Batch 150 Loss 0.0391
+Epoch 27 Batch 200 Loss 0.0400
+Epoch 27 Batch 250 Loss 0.0625
+Epoch 27 Batch 300 Loss 0.0541
+Epoch 27 Batch 350 Loss 0.0175
+Epoch 27 Batch 400 Loss 0.0122
+Epoch 27 Batch 450 Loss 0.0154
+Epoch 27 Batch 500 Loss 0.0157
+Epoch 27 Batch 550 Loss 0.0308
+Epoch 27 Batch 600 Loss 0.0240
+Epoch 27 Batch 650 Loss 0.0486
+Epoch 27 Loss 0.037573  acc: 0.9884 [ Validation Loss 0.380428 valid_acc: 0.9016 ]
+Time taken for 1 epoch 167.57903480529785 sec
+
+01:17:31.96
+Epoch 28 Batch 0 Loss 0.0136
+Epoch 28 Batch 50 Loss 0.0171
+Epoch 28 Batch 100 Loss 0.0035
+Epoch 28 Batch 150 Loss 0.0792
+Epoch 28 Batch 200 Loss 0.0359
+Epoch 28 Batch 250 Loss 0.0163
+Epoch 28 Batch 300 Loss 0.0052
+Epoch 28 Batch 350 Loss 0.0496
+Epoch 28 Batch 400 Loss 0.0254
+Epoch 28 Batch 450 Loss 0.0098
+Epoch 28 Batch 500 Loss 0.0175
+Epoch 28 Batch 550 Loss 0.0741
+Epoch 28 Batch 600 Loss 0.0750
+Epoch 28 Batch 650 Loss 0.0544
+Epoch 28 Loss 0.042769  acc: 0.9864 [ Validation Loss 0.402850 valid_acc: 0.9022 ]
+Time taken for 1 epoch 167.65142703056335 sec
+
+01:20:19.61
+Epoch 29 Batch 0 Loss 0.0432
+Epoch 29 Batch 50 Loss 0.0068
+Epoch 29 Batch 100 Loss 0.0026
+Epoch 29 Batch 150 Loss 0.0191
+Epoch 29 Batch 200 Loss 0.0643
+Epoch 29 Batch 250 Loss 0.1589
+Epoch 29 Batch 300 Loss 0.0253
+Epoch 29 Batch 350 Loss 0.0080
+Epoch 29 Batch 400 Loss 0.0757
+Epoch 29 Batch 450 Loss 0.0313
+Epoch 29 Batch 500 Loss 0.0343
+Epoch 29 Batch 550 Loss 0.0281
+Epoch 29 Batch 600 Loss 0.0177
+Epoch 29 Batch 650 Loss 0.0046
+Epoch 29 Loss 0.037173  acc: 0.9882 [ Validation Loss 0.338516 valid_acc: 0.9033 ]
+Time taken for 1 epoch 172.08624863624573 sec
+
+01:23:11.70
+Epoch 30 Batch 0 Loss 0.0137
+Epoch 30 Batch 50 Loss 0.0049
+Epoch 30 Batch 100 Loss 0.0028
+Epoch 30 Batch 150 Loss 0.0812
+Epoch 30 Batch 200 Loss 0.0349
+Epoch 30 Batch 250 Loss 0.0012
+Epoch 30 Batch 300 Loss 0.0023
+Epoch 30 Batch 350 Loss 0.0170
+Epoch 30 Batch 400 Loss 0.0217
+Epoch 30 Batch 450 Loss 0.0007
+Epoch 30 Batch 500 Loss 0.0362
+Epoch 30 Batch 550 Loss 0.0105
+Epoch 30 Batch 600 Loss 0.0068
+Epoch 30 Batch 650 Loss 0.0291
+Epoch 30 Loss 0.022805  acc: 0.9931 [ Validation Loss 0.362309 valid_acc: 0.9043 ]
+Time taken for 1 epoch 169.5325632095337 sec
+
+01:26:01.23
+Epoch 31 Batch 0 Loss 0.0188
+Epoch 31 Batch 50 Loss 0.0275
+Epoch 31 Batch 100 Loss 0.0056
+Epoch 31 Batch 150 Loss 0.0353
+Epoch 31 Batch 200 Loss 0.0099
+Epoch 31 Batch 250 Loss 0.0169
+Epoch 31 Batch 300 Loss 0.0230
+Epoch 31 Batch 350 Loss 0.0180
+Epoch 31 Batch 400 Loss 0.0069
+Epoch 31 Batch 450 Loss 0.0027
+Epoch 31 Batch 500 Loss 0.0634
+Epoch 31 Batch 550 Loss 0.0078
+Epoch 31 Batch 600 Loss 0.0347
+Epoch 31 Batch 650 Loss 0.0082
+Epoch 31 Loss 0.027372  acc: 0.9916 [ Validation Loss 0.403321 valid_acc: 0.9050 ]
+Time taken for 1 epoch 170.00324177742004 sec
+
+01:28:51.24
+Epoch 32 Batch 0 Loss 0.0625
+Epoch 32 Batch 50 Loss 0.0379
+Epoch 32 Batch 100 Loss 0.0745
+Epoch 32 Batch 150 Loss 0.0654
+Epoch 32 Batch 200 Loss 0.0355
+Epoch 32 Batch 250 Loss 0.0246
+Epoch 32 Batch 300 Loss 0.0563
+Epoch 32 Batch 350 Loss 0.0397
+Epoch 32 Batch 400 Loss 0.0103
+Epoch 32 Batch 450 Loss 0.0897
+Epoch 32 Batch 500 Loss 0.0118
+Epoch 32 Batch 550 Loss 0.0125
+Epoch 32 Batch 600 Loss 0.0286
+Epoch 32 Batch 650 Loss 0.0081
+Epoch 32 Loss 0.036055  acc: 0.9888 [ Validation Loss 0.465686 valid_acc: 0.9051 ]
+Time taken for 1 epoch 168.73478531837463 sec
+
+01:31:39.97
+Epoch 33 Batch 0 Loss 0.0614
+Epoch 33 Batch 50 Loss 0.0878
+Epoch 33 Batch 100 Loss 0.0419
+Epoch 33 Batch 150 Loss 0.0707
+Epoch 33 Batch 200 Loss 0.0456
+Epoch 33 Batch 250 Loss 0.0103
+Epoch 33 Batch 300 Loss 0.0058
+Epoch 33 Batch 350 Loss 0.0572
+Epoch 33 Batch 400 Loss 0.0586
+Epoch 33 Batch 450 Loss 0.0385
+Epoch 33 Batch 500 Loss 0.0089
+Epoch 33 Batch 550 Loss 0.0256
+Epoch 33 Batch 600 Loss 0.0480
+Epoch 33 Batch 650 Loss 0.0707
+Epoch 33 Loss 0.033780  acc: 0.9897 [ Validation Loss 0.392054 valid_acc: 0.9058 ]
+Time taken for 1 epoch 169.34981775283813 sec
+
+01:34:29.32
+Epoch 34 Batch 0 Loss 0.0150
+Epoch 34 Batch 50 Loss 0.0157
+Epoch 34 Batch 100 Loss 0.0509
+Epoch 34 Batch 150 Loss 0.1124
+Epoch 34 Batch 200 Loss 0.0408
+Epoch 34 Batch 250 Loss 0.0688
+Epoch 34 Batch 300 Loss 0.0066
+Epoch 34 Batch 350 Loss 0.0359
+Epoch 34 Batch 400 Loss 0.0473
+Epoch 34 Batch 450 Loss 0.0120
+Epoch 34 Batch 500 Loss 0.0310
+Epoch 34 Batch 550 Loss 0.0187
+Epoch 34 Batch 600 Loss 0.0175
+Epoch 34 Batch 650 Loss 0.0081
+Epoch 34 Loss 0.027995  acc: 0.9908 [ Validation Loss 0.390332 valid_acc: 0.9066 ]
+Time taken for 1 epoch 171.83250617980957 sec
+
+01:37:21.15
+Epoch 35 Batch 0 Loss 0.0624
+Epoch 35 Batch 50 Loss 0.0849
+Epoch 35 Batch 100 Loss 0.0538
+Epoch 35 Batch 150 Loss 0.0176
+Epoch 35 Batch 200 Loss 0.0034
+Epoch 35 Batch 250 Loss 0.0017
+Epoch 35 Batch 300 Loss 0.0448
+Epoch 35 Batch 350 Loss 0.0563
+Epoch 35 Batch 400 Loss 0.0524
+Epoch 35 Batch 450 Loss 0.0009
+Epoch 35 Batch 500 Loss 0.0243
+Epoch 35 Batch 550 Loss 0.0458
+Epoch 35 Batch 600 Loss 0.0059
+Epoch 35 Batch 650 Loss 0.0472
+Epoch 35 Loss 0.027838  acc: 0.9910 [ Validation Loss 0.440302 valid_acc: 0.9070 ]
+Time taken for 1 epoch 169.3726749420166 sec
+
+01:40:10.53
+Epoch 36 Batch 0 Loss 0.0216
+Epoch 36 Batch 50 Loss 0.0186
+Epoch 36 Batch 100 Loss 0.0061
+Epoch 36 Batch 150 Loss 0.1490
+Epoch 36 Batch 200 Loss 0.0024
+Epoch 36 Batch 250 Loss 0.0315
+Epoch 36 Batch 300 Loss 0.0040
+Epoch 36 Batch 350 Loss 0.0044
+Epoch 36 Batch 400 Loss 0.0290
+Epoch 36 Batch 450 Loss 0.0101
+Epoch 36 Batch 500 Loss 0.0030
+Epoch 36 Batch 550 Loss 0.0084
+Epoch 36 Batch 600 Loss 0.0018
+Epoch 36 Batch 650 Loss 0.0047
+Epoch 36 Loss 0.032313  acc: 0.9900 [ Validation Loss 0.389387 valid_acc: 0.9075 ]
+Time taken for 1 epoch 171.8777163028717 sec
+
+01:43:02.40
+Epoch 37 Batch 0 Loss 0.0270
+Epoch 37 Batch 50 Loss 0.0008
+Epoch 37 Batch 100 Loss 0.0149
+Epoch 37 Batch 150 Loss 0.0249
+Epoch 37 Batch 200 Loss 0.0229
+Epoch 37 Batch 250 Loss 0.0057
+Epoch 37 Batch 300 Loss 0.0114
+Epoch 37 Batch 350 Loss 0.0078
+Epoch 37 Batch 400 Loss 0.0565
+Epoch 37 Batch 450 Loss 0.0719
+Epoch 37 Batch 500 Loss 0.0380
+Epoch 37 Batch 550 Loss 0.0707
+Epoch 37 Batch 600 Loss 0.0063
+Epoch 37 Batch 650 Loss 0.0932
+Epoch 37 Loss 0.027246  acc: 0.9916 [ Validation Loss 0.434398 valid_acc: 0.9079 ]
+Time taken for 1 epoch 171.75981783866882 sec
+
+01:45:54.16
+Epoch 38 Batch 0 Loss 0.0117
+Epoch 38 Batch 50 Loss 0.0033
+Epoch 38 Batch 100 Loss 0.1715
+Epoch 38 Batch 150 Loss 0.1210
+Epoch 38 Batch 200 Loss 0.0085
+Epoch 38 Batch 250 Loss 0.0297
+Epoch 38 Batch 300 Loss 0.0034
+Epoch 38 Batch 350 Loss 0.0066
+Epoch 38 Batch 400 Loss 0.0148
+Epoch 38 Batch 450 Loss 0.0490
+Epoch 38 Batch 500 Loss 0.0544
+Epoch 38 Batch 550 Loss 0.1265
+Epoch 38 Batch 600 Loss 0.0015
+Epoch 38 Batch 650 Loss 0.0164
+Epoch 38 Loss 0.031467  acc: 0.9901 [ Validation Loss 0.385535 valid_acc: 0.9084 ]
+Time taken for 1 epoch 176.15763664245605 sec
+
+01:48:50.32
+Epoch 39 Batch 0 Loss 0.0018
+Epoch 39 Batch 50 Loss 0.0275
+Epoch 39 Batch 100 Loss 0.0487
+Epoch 39 Batch 150 Loss 0.0033
+Epoch 39 Batch 200 Loss 0.0066
+Epoch 39 Batch 250 Loss 0.0264
+Epoch 39 Batch 300 Loss 0.0181
+Epoch 39 Batch 350 Loss 0.0032
+Epoch 39 Batch 400 Loss 0.0597
+Epoch 39 Batch 450 Loss 0.0055
+Epoch 39 Batch 500 Loss 0.0061
+Epoch 39 Batch 550 Loss 0.0442
+Epoch 39 Batch 600 Loss 0.0061
+Epoch 39 Batch 650 Loss 0.0019
+Epoch 39 Loss 0.025099  acc: 0.9924 [ Validation Loss 0.415992 valid_acc: 0.9089 ]
+Time taken for 1 epoch 173.5992283821106 sec
+
+01:51:43.92
+Epoch 40 Batch 0 Loss 0.1424
+Epoch 40 Batch 50 Loss 0.0137
+Epoch 40 Batch 100 Loss 0.0316
+Epoch 40 Batch 150 Loss 0.0049
+Epoch 40 Batch 200 Loss 0.0573
+Epoch 40 Batch 250 Loss 0.0297
+Epoch 40 Batch 300 Loss 0.0162
+Epoch 40 Batch 350 Loss 0.0409
+Epoch 40 Batch 400 Loss 0.0037
+Epoch 40 Batch 450 Loss 0.0196
+Epoch 40 Batch 500 Loss 0.0059
+Epoch 40 Batch 550 Loss 0.0024
+Epoch 40 Batch 600 Loss 0.0306
+Epoch 40 Batch 650 Loss 0.0101
+Epoch 40 Loss 0.031994  acc: 0.9902 [ Validation Loss 0.420584 valid_acc: 0.9094 ]
+Time taken for 1 epoch 172.82892537117004 sec
+
+01:54:36.75
+Epoch 41 Batch 0 Loss 0.0152
+Epoch 41 Batch 50 Loss 0.0241
+Epoch 41 Batch 100 Loss 0.0183
+Epoch 41 Batch 150 Loss 0.0230
+Epoch 41 Batch 200 Loss 0.0061
+Epoch 41 Batch 250 Loss 0.0069
+Epoch 41 Batch 300 Loss 0.0011
+Epoch 41 Batch 350 Loss 0.0253
+Epoch 41 Batch 400 Loss 0.0412
+Epoch 41 Batch 450 Loss 0.0327
+Epoch 41 Batch 500 Loss 0.0143
+Epoch 41 Batch 550 Loss 0.0898
+Epoch 41 Batch 600 Loss 0.0015
+Epoch 41 Batch 650 Loss 0.0042
+Epoch 41 Loss 0.027335  acc: 0.9919 [ Validation Loss 0.473106 valid_acc: 0.9096 ]
+Time taken for 1 epoch 172.48807072639465 sec
+
+01:57:29.24
+Epoch 42 Batch 0 Loss 0.0283
+Epoch 42 Batch 50 Loss 0.0194
+Epoch 42 Batch 100 Loss 0.0407
+Epoch 42 Batch 150 Loss 0.0005
+Epoch 42 Batch 200 Loss 0.0039
+Epoch 42 Batch 250 Loss 0.0402
+Epoch 42 Batch 300 Loss 0.0453
+Epoch 42 Batch 350 Loss 0.0749
+Epoch 42 Batch 400 Loss 0.0036
+Epoch 42 Batch 450 Loss 0.0025
+Epoch 42 Batch 500 Loss 0.0059
+Epoch 42 Batch 550 Loss 0.0105
+Epoch 42 Batch 600 Loss 0.0057
+Epoch 42 Batch 650 Loss 0.0362
+Epoch 42 Loss 0.027313  acc: 0.9915 [ Validation Loss 0.406851 valid_acc: 0.9100 ]
+Time taken for 1 epoch 172.355286359787 sec
+
+02:00:21.59
+Epoch 43 Batch 0 Loss 0.0016
+Epoch 43 Batch 50 Loss 0.0022
+Epoch 43 Batch 100 Loss 0.0248
+Epoch 43 Batch 150 Loss 0.0159
+Epoch 43 Batch 200 Loss 0.0052
+Epoch 43 Batch 250 Loss 0.0017
+Epoch 43 Batch 300 Loss 0.0067
+Epoch 43 Batch 350 Loss 0.0847
+Epoch 43 Batch 400 Loss 0.0701
+Epoch 43 Batch 450 Loss 0.0093
+Epoch 43 Batch 500 Loss 0.0212
+Epoch 43 Batch 550 Loss 0.0707
+Epoch 43 Batch 600 Loss 0.0039
+Epoch 43 Batch 650 Loss 0.1360
+Epoch 43 Loss 0.024940  acc: 0.9922 [ Validation Loss 0.473939 valid_acc: 0.9103 ]
+Time taken for 1 epoch 170.87002086639404 sec
+
+02:03:12.46
+Epoch 44 Batch 0 Loss 0.0161
+Epoch 44 Batch 50 Loss 0.0054
+Epoch 44 Batch 100 Loss 0.0088
+Epoch 44 Batch 150 Loss 0.0009
+Epoch 44 Batch 200 Loss 0.0229
+Epoch 44 Batch 250 Loss 0.0248
+Epoch 44 Batch 300 Loss 0.0010
+Epoch 44 Batch 350 Loss 0.0067
+Epoch 44 Batch 400 Loss 0.0010
+Epoch 44 Batch 450 Loss 0.0146
+Epoch 44 Batch 500 Loss 0.0029
+Epoch 44 Batch 550 Loss 0.0420
+Epoch 44 Batch 600 Loss 0.0269
+Epoch 44 Batch 650 Loss 0.0007
+Epoch 44 Loss 0.022059  acc: 0.9930 [ Validation Loss 0.479937 valid_acc: 0.9105 ]
+Time taken for 1 epoch 170.62233877182007 sec
+
+02:06:03.09
+Epoch 45 Batch 0 Loss 0.0191
+Epoch 45 Batch 50 Loss 0.0033
+Epoch 45 Batch 100 Loss 0.1548
+Epoch 45 Batch 150 Loss 0.0100
+Epoch 45 Batch 200 Loss 0.0489
+Epoch 45 Batch 250 Loss 0.0242
+Epoch 45 Batch 300 Loss 0.0010
+Epoch 45 Batch 350 Loss 0.0679
+Epoch 45 Batch 400 Loss 0.0008
+Epoch 45 Batch 450 Loss 0.0146
+Epoch 45 Batch 500 Loss 0.0100
+Epoch 45 Batch 550 Loss 0.0504
+Epoch 45 Batch 600 Loss 0.0054
+Epoch 45 Batch 650 Loss 0.0650
+Epoch 45 Loss 0.027013  acc: 0.9917 [ Validation Loss 0.485537 valid_acc: 0.9108 ]
+Time taken for 1 epoch 172.05923104286194 sec
+
+02:08:55.15
+Epoch 46 Batch 0 Loss 0.0137
+Epoch 46 Batch 50 Loss 0.0183
+Epoch 46 Batch 100 Loss 0.0182
+Epoch 46 Batch 150 Loss 0.0093
+Epoch 46 Batch 200 Loss 0.0469
+Epoch 46 Batch 250 Loss 0.0109
+Epoch 46 Batch 300 Loss 0.0189
+Epoch 46 Batch 350 Loss 0.0847
+Epoch 46 Batch 400 Loss 0.0102
+Epoch 46 Batch 450 Loss 0.0120
+Epoch 46 Batch 500 Loss 0.0378
+Epoch 46 Batch 550 Loss 0.0087
+Epoch 46 Batch 600 Loss 0.0406
+Epoch 46 Batch 650 Loss 0.0144
+Epoch 46 Loss 0.029927  acc: 0.9906 [ Validation Loss 0.472375 valid_acc: 0.9111 ]
+Time taken for 1 epoch 170.83218097686768 sec
+
+02:11:45.98
+Epoch 47 Batch 0 Loss 0.0055
+Epoch 47 Batch 50 Loss 0.0022
+Epoch 47 Batch 100 Loss 0.0115
+Epoch 47 Batch 150 Loss 0.0009
+Epoch 47 Batch 200 Loss 0.0035
+Epoch 47 Batch 250 Loss 0.0041
+Epoch 47 Batch 300 Loss 0.0032
+Epoch 47 Batch 350 Loss 0.0058
+Epoch 47 Batch 400 Loss 0.0040
+Epoch 47 Batch 450 Loss 0.0198
+Epoch 47 Batch 500 Loss 0.0099
+Epoch 47 Batch 550 Loss 0.0765
+Epoch 47 Batch 600 Loss 0.0074
+Epoch 47 Batch 650 Loss 0.0637
+Epoch 47 Loss 0.024528  acc: 0.9929 [ Validation Loss 0.407950 valid_acc: 0.9116 ]
+Time taken for 1 epoch 170.86098647117615 sec
+
+02:14:36.84
+Epoch 48 Batch 0 Loss 0.0027
+Epoch 48 Batch 50 Loss 0.0044
+Epoch 48 Batch 100 Loss 0.0363
+Epoch 48 Batch 150 Loss 0.0054
+Epoch 48 Batch 200 Loss 0.0642
+Epoch 48 Batch 250 Loss 0.0192
+Epoch 48 Batch 300 Loss 0.0123
+Epoch 48 Batch 350 Loss 0.0049
+Epoch 48 Batch 400 Loss 0.0005
+Epoch 48 Batch 450 Loss 0.0040
+Epoch 48 Batch 500 Loss 0.0297
+Epoch 48 Batch 550 Loss 0.0284
+Epoch 48 Batch 600 Loss 0.0034
+Epoch 48 Batch 650 Loss 0.0569
+Epoch 48 Loss 0.023733  acc: 0.9928 [ Validation Loss 0.435842 valid_acc: 0.9119 ]
+Time taken for 1 epoch 173.7646460533142 sec
+
+02:17:30.60
+Epoch 49 Batch 0 Loss 0.0027
+Epoch 49 Batch 50 Loss 0.0875
+Epoch 49 Batch 100 Loss 0.0129
+Epoch 49 Batch 150 Loss 0.0050
+Epoch 49 Batch 200 Loss 0.0274
+Epoch 49 Batch 250 Loss 0.0115
+Epoch 49 Batch 300 Loss 0.0123
+Epoch 49 Batch 350 Loss 0.0005
+Epoch 49 Batch 400 Loss 0.0051
+Epoch 49 Batch 450 Loss 0.0027
+Epoch 49 Batch 500 Loss 0.0040
+Epoch 49 Batch 550 Loss 0.0031
+Epoch 49 Batch 600 Loss 0.0044
+Epoch 49 Batch 650 Loss 0.1058
+Epoch 49 Loss 0.028044  acc: 0.9920 [ Validation Loss 0.447612 valid_acc: 0.9120 ]
+Time taken for 1 epoch 174.67739391326904 sec
+
+02:20:25.28
+Epoch 50 Batch 0 Loss 0.0374
+Epoch 50 Batch 50 Loss 0.0130
+Epoch 50 Batch 100 Loss 0.0716
+Epoch 50 Batch 150 Loss 0.0186
+Epoch 50 Batch 200 Loss 0.0124
+Epoch 50 Batch 250 Loss 0.0557
+Epoch 50 Batch 300 Loss 0.0271
+Epoch 50 Batch 350 Loss 0.0019
+Epoch 50 Batch 400 Loss 0.0044
+Epoch 50 Batch 450 Loss 0.0130
+Epoch 50 Batch 500 Loss 0.0205
+Epoch 50 Batch 550 Loss 0.0448
+Epoch 50 Batch 600 Loss 0.0611
+Epoch 50 Batch 650 Loss 0.0143
+Epoch 50 Loss 0.034360  acc: 0.9899 [ Validation Loss 0.405236 valid_acc: 0.9124 ]
+Time taken for 1 epoch 174.11677050590515 sec
+
+02:23:19.40
+epoch exceeded
+starting trainUntil  0.01 50  DONE!
+saved to  ../train-folder/checkpoints/curriculum-mixed-try11--mixed\ckpt-1
+model saved to ../train-folder/checkpoints/curriculum-mixed-try11--mixed
+evaluating total images:  114 ...
+evaluating  0 ...
+2021-07-19 19:11:39.698899: W tensorflow/core/common_runtime/bfc_allocator.cc:271] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.98GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2021-07-19 19:11:39.699299: W tensorflow/core/common_runtime/bfc_allocator.cc:271] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.98GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+------------------------ 0 ------------------------------
+predicted ['e4', 'c5', 'Nf3', 'e6']
+expected ['e4', 'c5', 'Nf3', 'e6', 'd4', 'cxd4', 'Nxd4', 'a6', 'c4', 'Qc7', 'Nc3', 'Nf6', 'Be3', 'Bb4', 'Qd2', 'Nxe4']
+------------------------ 1 ------------------------------
+predicted ['e4', 'c5', 'Nf3', 'd6']
+expected ['e4', 'c5', 'Nf3', 'd6', 'Bb5+', 'Bd7', 'Bxd7+', 'Nxd7', 'O-O', 'Ngf6', 'Re1', 'e5', 'c3', 'Be7', 'd3', 'O-O']
+------------------------ 2 ------------------------------
+predicted ['Nf3', 'Nf6', 'g3', 'd5']
+expected ['Nf3', 'Nf6', 'g3', 'd5', 'c4', 'e6', 'b3', 'Be7', 'Bb2', 'O-O', 'Bg2', 'Nbd7', 'O-O', 'c6', 'd3', 'Re8']
+------------------------ 3 ------------------------------
+predicted ['c4', 'c5', 'Nc3', 'Nc6']
+expected ['c4', 'c5', 'Nc3', 'Nc6', 'g3', 'g6', 'Bg2', 'Bg7', 'Nf3', 'd6', 'O-O', 'e5', 'd3', 'Nge7', 'Rb1', 'O-O']
+------------------------ 4 ------------------------------
+predicted ['d4', 'd5', 'Bf4', 'Nf6']
+expected ['d4', 'd5', 'Bf4', 'Nf6', 'e3', 'c5', 'c3', 'Qb6', 'Qb3', 'c4', 'Qc2', 'g6', 'Nd2', 'Nc6', 'e4', 'e6']
+evaluating  100 ...
+len 1 accuracy 0.8157894611358643 cir 0.102339186
+len 2 accuracy 0.8070175647735596 cir 0.1125731
+len 3 accuracy 0.8157894611358643 cir 0.10550683
+len 4 accuracy 0.8004385828971863 cir 0.11878655
+saved to  ../train-folder/checkpoints/curriculum-mixed-try11\ckpt-2
+model saved to ../train-folder/checkpoints/curriculum-mixed-try11
+treinamento de curriculo finalizado com sucesso!
+Done!
+
+Process finished with exit code 0

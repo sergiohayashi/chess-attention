@@ -11,3 +11,7 @@ FORCED_INPUT_SIZE = {
     "ATTENTION_SHAPE": (25, 26),
 }
 PRINT_EACH_MOVE= False
+
+STOP_FILE = os.path.join( ROOT_DIR, 'stop')
+print( 'Para parar o treinamento, criar o arquivo ', STOP_FILE)
+
