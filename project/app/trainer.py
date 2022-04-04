@@ -79,15 +79,21 @@ class TrainerController:
         self.valid_num_steps = len(valid_img_names) // self.BATCH_SIZE
         print('building final dataset done');
 
-    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
+
+    def elapsed_training_time_in_hour(self):
+        now = time.time()
+        hours, rem = divmod(now - self.tstart, 3600)
+        return hours
+
+    def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None, max_hour= None):
         for _len in lens:
             self.train_more(min_max_epoch, target_loss, target_acc,
                             self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps,
-                            _len, train_name, test_set=test_set)
+                            _len, train_name, test_set=test_set, max_hour = max_hour)
 
     def train_more(self, min_max_epoch, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
-                   train_length=4, train_name='none', val_loss_limit=0, test_set=None):  # , n_epoch):
+                   train_length=4, train_name='none', val_loss_limit=0, test_set=None, max_hour= None):  # , n_epoch):
 
         MIN_EPOCH, MAX_EPOCH = min_max_epoch
 
@@ -177,6 +183,11 @@ class TrainerController:
             if 0 < target_acc <= train_acc:
                 print("Target acc reached! stop!", ' len= ', train_length)
                 return True
+
+            if max_hour is not None and self.elapsed_training_time_in_hour()>= max_hour:
+                print("Max training time reached! stop!", self.elapsed_training_time_in_hour(),  'h')
+                return True
+
 
         print('epoch exceeded')
         return False
