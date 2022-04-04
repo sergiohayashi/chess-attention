@@ -55,5 +55,5 @@ def generate_mosaic_dataset(name, n):
 
 
 if __name__ == "__main__":
-    generate_mosaic_dataset('sequencias-reais-8linhas--', 50000)
+    generate_mosaic_dataset('sequencias-reais-8linhas--100K-', 100000)
     print('done!')
