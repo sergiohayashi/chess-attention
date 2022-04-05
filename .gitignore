@@ -286,4 +286,4 @@ cython_debug/
 dataset/
 datasets/
 test-data/
-train-folder/tmp/
+train-folder/
