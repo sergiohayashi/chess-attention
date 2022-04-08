@@ -112,8 +112,9 @@ class Saver:
         self.trainName = trainName
         self.model = model
 
-    def __call__(self):
-        checkPointPath = TRAIN_FOLDER + '/checkpoints/' + self.trainName
+    def __call__(self, tag=None):
+        name = self.trainName + '_latest' if tag is None else self.trainName + '_' + tag
+        checkPointPath = TRAIN_FOLDER + '/checkpoints/' + name
         self.model.steps.saveCheckpointTo(checkPointPath)
         print('checkpoint saved to ' + checkPointPath)
 

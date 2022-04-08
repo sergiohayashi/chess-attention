@@ -93,19 +93,19 @@ class TrainerController:
         hours, rem = divmod(now - self.tstart, 3600)
         return hours
 
-
     def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None,
-                   saver=None, max_hour= None):
+                   saver=None, max_hour=None):
         for _len in lens:
             self.train_more(min_max_epoch, target_loss, target_acc,
                             self.train_dataset, self.valid_dataset, self.train_num_steps, self.valid_num_steps,
-                            _len, train_name, test_set=test_set, saver=saver, max_hour = max_hour)
+                            _len, train_name, test_set=test_set, saver=saver, max_hour=max_hour)
 
     def train_more(self, min_max_epoch, loss_target, target_acc, train_dataset, valid_dataset,
                    train_num_steps, valid_num_steps,
-                   train_length=4, train_name='none', val_loss_limit=0, test_set=None, max_hour= None,
+                   train_length=4, train_name='none', val_loss_limit=0, test_set=None, max_hour=None,
                    saver=None):  # , n_epoch):
 
+        best_acc16 = config.SAVE_IF_BETTER_THAN
         MIN_EPOCH, MAX_EPOCH = min_max_epoch
 
         print("-- loss_target=>", loss_target, " train_length=", train_length, ' name=', train_name)
@@ -149,6 +149,14 @@ class TrainerController:
             #
             if test_set:
                 test_acc = Evaluator(self.model, target_len=train_length).evaluate_test_data(test_set)
+                acc16 = test_acc[0][0][-1]
+                print('test_acc= ', acc16)
+
+                if acc16 > best_acc16 + config.SAVE_INCREMENT: # 0.005:
+                    print('NEW BEST {}. Save'.format(acc16))
+                    best_acc16 = acc16
+                    if saver:
+                        saver('best')
             else:
                 test_acc = None
 
@@ -200,13 +208,12 @@ class TrainerController:
                 print('stop requested!')
                 return True
 
-            if max_hour is not None and self.elapsed_training_time_in_hour()>= max_hour:
-                print("Max training time reached! stop!", self.elapsed_training_time_in_hour(),  'h')
+            if max_hour is not None and self.elapsed_training_time_in_hour() >= max_hour:
+                print("Max training time reached! stop!", self.elapsed_training_time_in_hour(), 'h')
                 return True
 
             if saver:
                 saver()
-
 
         print('epoch exceeded')
         return False

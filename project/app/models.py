@@ -191,20 +191,9 @@ class AttentionEncoderDecoderModel:
                  NUM_LINHAS=2,
                  NO_TEACH=True,
                  ):
-        # -1 gera (None, 18, 21, 512)
-        if NUM_LINHAS == 2:
-            self.ATTENTION_SHAPE = (12, 53)
-            self.INPUT_SHAPE = (200, 862)
-        elif NUM_LINHAS == 8:
-            self.ATTENTION_SHAPE = (50, 53)
-            self.INPUT_SHAPE = (800, 862)
-        else:
-            raise NameError("Suporta somente 2 e 8 linhas")
 
-        if config.FORCE_INPUT_SIZE:
-            print("\nUsa FORCE_INPUT_SIZE informada em config.py", json.dumps(config.FORCED_INPUT_SIZE), "\n")
-            self.ATTENTION_SHAPE = config.FORCED_INPUT_SIZE["ATTENTION_SHAPE"]
-            self.INPUT_SHAPE = config.FORCED_INPUT_SIZE["INPUT_SHAPE"]
+        self.ATTENTION_SHAPE = config.size_mode["attention_shape"]
+        self.INPUT_SHAPE = config.size_mode["input_shape"]
 
         self.FEATURES_SHAPE = 512
         self.ATTENTION_FEATURES_SHAPE = self.ATTENTION_SHAPE[0] * self.ATTENTION_SHAPE[1]  # 16*19   # 308
@@ -235,8 +224,13 @@ class AttentionEncoderDecoderModel:
         # O input shape nao é obrigatorio, mas setando dá para
         # ver o tamanho do output
         new_input = self.image_model.input
-        hidden_layer = self.image_model.layers[-2].output
-        print("Shape da imagem ao final da CNN: ", self.image_model.layers[-2].output.shape)
+        # hidden_layer = self.image_model.layers[-2].output
+        hidden_layer = self.image_model.layers[ config.size_mode['vgg_layer']].output
+        print("Shape da imagem ao final da CNN: ", hidden_layer.shape)
+        if (hidden_layer.shape[1], hidden_layer.shape[2]) != (self.ATTENTION_SHAPE[0],self.ATTENTION_SHAPE[1]):
+            raise Exception( 'shape do VGG {} diferente do shape da attention {}'.format(
+                (hidden_layer.shape[1], hidden_layer.shape[2]),
+                (self.ATTENTION_SHAPE[0], self.ATTENTION_SHAPE[1])))
         self.image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
 
         self.encoder = CNN_Encoder(self.EMBEDDING_DIM, self.UNITS)

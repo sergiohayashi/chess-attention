@@ -867,7 +867,7 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_tam_menor():
     #
     train_name = "train_comparativo_20211106_handwritten_teacher_tam_menor"
 
-    config.FORCE_INPUT_SIZE = {"INPUT_SHAPE": (400, 430), "ATTENTION_SHAPE": (25, 26)}
+    config.force_size_mode(2)
     model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
@@ -889,7 +889,7 @@ def train_8_lines_comparativo_20211106_handwritten_tam_menor():
     ]
     NUM_LINES = 8
 
-    config.FORCE_INPUT_SIZE = {"INPUT_SHAPE": (400, 430), "ATTENTION_SHAPE": (25, 26)}
+    config.force_size_mode(2)
     train_name = "train_comparativo_20211106_handwritten_tam_menor_"
 
     model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=True)
@@ -913,7 +913,7 @@ def train_8_lines_comparativo_20211106_random_tam_menor():
     ]
     NUM_LINES = 8
 
-    config.FORCE_INPUT_SIZE = {"INPUT_SHAPE": (400, 430), "ATTENTION_SHAPE": (25, 26)}
+    config.force_size_mode(2)
     train_name = "train_comparativo_20211106_random_tam_menor_"
 
     model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=True)
