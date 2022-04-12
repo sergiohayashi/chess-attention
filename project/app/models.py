@@ -199,7 +199,7 @@ class AttentionEncoderDecoderModel:
         self.ATTENTION_FEATURES_SHAPE = self.ATTENTION_SHAPE[0] * self.ATTENTION_SHAPE[1]  # 16*19   # 308
         self.EMBEDDING_DIM = 256
         self.UNITS = 512
-        self.LEARNING_RATE = 0.0005
+        self.LEARNING_RATE = config.LEARNING_RATE
         self.NO_TEACH = NO_TEACH
         self.FREEZE_ENCODER = False
         self.TRAIN_LENGTH = 16
@@ -242,6 +242,7 @@ class AttentionEncoderDecoderModel:
         self.loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
             from_logits=True, reduction='none')
 
+        print('LEARNING_RATE = ', self.LEARNING_RATE)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=self.LEARNING_RATE)
         return self
 

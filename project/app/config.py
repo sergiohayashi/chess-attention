@@ -5,7 +5,6 @@ TRAIN_FOLDER = os.path.join(ROOT_DIR, 'train-folder')
 VOCAB_FOLDER = os.path.join(ROOT_DIR, 'vocab')
 
 USE_BIG_PLOT = False
-PRINT_EACH_MOVE = False
 
 STOP_FILE = os.path.join(ROOT_DIR, 'stop')
 print('Para parar o treinamento, criar o arquivo ', STOP_FILE)
@@ -36,4 +35,10 @@ def force_size_mode(id):
 
 SAVE_IF_BETTER_THAN = 0.6
 SAVE_INCREMENT = 0.001
+
+
+LEARNING_RATE = 0.0005
+
+# image, attention_plot, ATTENTION_SHAPE
+PLOT_UNIFIED = False
 

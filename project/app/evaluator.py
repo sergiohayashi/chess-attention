@@ -115,7 +115,10 @@ class Evaluator:
                 r = all_results[i]
                 print('--------------------< ', i, ': ', Path(r['file']).name, '>------------------------------')
                 print('len:', maxlen, 'acc:', r['acc'], 'cer', r['cer'], 'file: ', r['file'])
-                self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
+                if config.PLOT_UNIFIED:
+                    Plotter.plot_attention_unified(r['file'], r['prediction'], r['attention'], r['label'])
+                else:
+                    self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
 
         predicted = result
         return result_ac, result_cer, predicted, labels

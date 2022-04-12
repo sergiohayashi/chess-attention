@@ -58,8 +58,8 @@ class ModelPredictController:
     def restoreFromCheckpointRelativePath(self, relativePath):
         self.model.steps.restoreFromLatestCheckpoint(relativePath)
 
-    def predictOneImage(self, imagePath):
-        result = self.model.steps.evaluate(imagePath)
+    def predictOneImage(self, imagePath, _len=16):
+        result = self.model.steps.evaluate(imagePath, _length=_len)
         return result
 
     def evaluateForTest(self, dataset='test', plot_attention=False, _len=4):
