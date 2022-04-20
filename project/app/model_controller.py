@@ -33,15 +33,11 @@ from trainer import TrainerController
 class ModelPredictController:
 
     def __init__(self,
-                 NUM_LINHAS=2,
-                 NO_TEACH=True
                  ):
         self.model = None
-        self.NUM_LINHAS = NUM_LINHAS
-        self.NO_TEACH = NO_TEACH
 
     def load(self):
-        self.model = AttentionEncoderDecoderModel(NUM_LINHAS=self.NUM_LINHAS, NO_TEACH=self.NO_TEACH).build()
+        self.model = AttentionEncoderDecoderModel().build()
 
     def useModel(self, model):
         self.model = model
@@ -121,18 +117,14 @@ class Saver:
 
 class ModelTrainController:
     def __init__(self,
-                 NUM_LINHAS=2,
-                 NO_TEACH=True
                  ):
         self.bestCheckpointPath = 'C:/mestrado/repos-github/chess-attention/trained--for-evaluation/notebooks' \
                                   '/best_checkpoint/1006/checkpoints/train '
         self.model = None
         self.trainer = None
-        self.NO_TEACH = NO_TEACH
-        self.NUM_LINHAS = NUM_LINHAS
 
     def load(self):
-        self.model = AttentionEncoderDecoderModel(NUM_LINHAS=self.NUM_LINHAS, NO_TEACH=self.NO_TEACH).build()
+        self.model = AttentionEncoderDecoderModel().build()
 
     def useModel(self, model):
         self.model = model
@@ -171,7 +163,7 @@ class ModelTrainController:
 
     def trainUntil(self, target_loss, target_acc, min_max_epoch, lens=[4], train_name='none', test_set=None):
         saver = Saver(trainName=train_name, model=self.model)
-        print('starting trainUntil ', target_loss, min_max_epoch, train_name)
+        print('starting trainUntil loss={} or acc={} epoch={}-{}'.format( target_loss, target_acc, min_max_epoch, train_name))
         self.trainer.trainUntil(target_loss, target_acc, min_max_epoch, lens, train_name, test_set=test_set,
                                 saver=saver)
 

@@ -264,7 +264,7 @@ def train_handwritten_only_deumavez():
 
 
 def train_handwritten_only_deumavez_teach_forcing():
-    model = ModelTrainController(NO_TEACH=False);
+    model = ModelTrainController();
     model.load()
     model.initTrainSession()
     model.trainOrContinueForCurriculum('handwritten-only-deumavez--teach-force-final', [
@@ -273,7 +273,7 @@ def train_handwritten_only_deumavez_teach_forcing():
 
 
 def train_curriculum_21_teacher_force():
-    model = ModelTrainController(NO_TEACH=False);
+    model = ModelTrainController();
     model.load()
     model.initTrainSession()
     model.trainOrContinueForCurriculum('curriculum-try-22--teacher-force', [
@@ -307,7 +307,8 @@ def train_all_combinations():
                 print("========================================================================")
                 print("INICIANDO TESTE => ", train_name)
 
-                model = ModelTrainController(NO_TEACH=no_teach)
+                config.TEACHER_FORCING = False if no_teach else True
+                model = ModelTrainController()
                 model.load()
                 model.initTrainSession()
                 model.trainOrContinueForCurriculum(train_name,
@@ -322,42 +323,6 @@ def train_all_combinations():
                 print("FINALIZADO TESTE => ", train_name)
 
 
-def train_all_combinations__um_a_um():
-    dataset_handwritten = [TRAIN_FOLDER + '/dataset/handwritten-only.zip']
-    dataset_niveis = [
-        TRAIN_FOLDER + '/dataset/nivel-0--dataset-v034--2lines-parts--42k.zip'
-        , TRAIN_FOLDER + '/dataset/nivel-1--dataset-v034--2lines-parts--42k-v3.zip'
-        , TRAIN_FOLDER + '/dataset/nivel-2--dataset-v034--2lines-parts--40k-v4.zip'
-        , TRAIN_FOLDER + '/dataset/nivel-4--dataset-v035--2lines-32k-v5.0.zip'
-        , TRAIN_FOLDER + '/dataset/nivel-5--dataset-v035--2lines-32k-v5.1.zip'
-    ]
-
-    ## Ajustar 1 a 1
-    lens = [4]  # [[4], [1, 2, 3, 4]]:
-    no_teach = True  # [True, False]
-    niveis = dataset_niveis  # [dataset_handwritten, dataset_niveis]
-
-    train_name = "train_200210902_1a1_{}__{}__{}".format(
-        "FIX_LEN" if len(lens) <= 1 else "INCR_LEN",
-        "NO_TEACH" if no_teach else "TEACH",
-        "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
-
-    print("========================================================================")
-    print("INICIANDO TESTE => ", train_name)
-
-    model = ModelTrainController(NO_TEACH=no_teach)
-    model.load()
-    model.initTrainSession()
-    model.trainOrContinueForCurriculum(train_name,
-                                       niveis, 0.1, 0.95,
-                                       (1, 50),
-                                       (25000, 5000),
-                                       lens=lens)  # testa 2 epoch por enquanto..
-    #
-    print("VALIDANDO => ", train_name)
-    # # model.evaluateForTest('test')
-    model.evaluateForTest('irt_hebraica_jan2020')
-    print("FINALIZADO TESTE => ", train_name)
 
 
 def train_8_lines_handwritten():
@@ -372,7 +337,7 @@ def train_8_lines_handwritten():
         "NO_TEACH" if no_teach else "TEACH",
         "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     # model.initTrainSession()
     model.initTrainSession(BATCH_SIZE=16)
@@ -406,7 +371,7 @@ def train_8_lines_curriculum():
         "NO_TEACH" if no_teach else "TEACH",
         "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     # model.initTrainSession()
     model.initTrainSession(BATCH_SIZE=16)
@@ -440,7 +405,7 @@ def train_8_lines_curriculum_etapa5():
         "NO_TEACH" if no_teach else "TEACH",
         "CURRICULUM" if len(niveis) > 1 else "HANDWRITTEN_ONLY")
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     # model.initTrainSession()
     model.initTrainSession(BATCH_SIZE=16)
@@ -471,7 +436,7 @@ def train_8_lines_curriculum_etapa5_refinamento_1():
 
     train_name = "train_20211026_curriculum_try2_8lines_INCR_LEN__NO_TEACH__CURRICULUM_ref1_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20211026_curriculum_try2_8lines_INCR_LEN__NO_TEACH__CURRICULUM--curriculum-8-linhas--etapa-5')
@@ -490,15 +455,13 @@ def train_8_lines_curriculum_etapa5_refinamento_1():
 def train_8_lines_curriculum_etapa5__direto():
     # lens = [1, 2, 3, 4, 6, 8, 10, 12, 14, 15, 16]   # etapas 5
     lens = [2]  # etapas 5
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-5.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_20211026_curriculum_etapa5_direto_8lines_INCR_LEN__NO_TEACH__CURRICULUM_--testfly-6"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     # model.initTrainSession()
     model.initTrainSession(BATCH_SIZE=16)
@@ -517,7 +480,6 @@ def train_8_lines_curriculum_etapa5__direto():
 def train_8_lines_comparativo_20211106_curriculum():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-1.zip',
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-2.zip',
@@ -525,11 +487,10 @@ def train_8_lines_comparativo_20211106_curriculum():
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-4.zip',
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-5.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_curriculum_4_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -548,15 +509,13 @@ def train_8_lines_comparativo_20211106_curriculum():
 def train_8_lines_comparativo_20211106_curriculum_unico():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-curriculum--unico--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_curriculum_unico_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -575,15 +534,13 @@ def train_8_lines_comparativo_20211106_curriculum_unico():
 def train_8_lines_comparativo_20211106_handwritten():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -602,15 +559,13 @@ def train_8_lines_comparativo_20211106_handwritten():
 def train_8_lines_comparativo_20211106_handwritten_only_2388():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2388.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_only_2388_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -627,15 +582,13 @@ def train_8_lines_comparativo_20211106_handwritten_only_2388():
 def train_8_lines_comparativo_20211106_random_only_2388():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-random-only-2388.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_random_only_2388_try3_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -652,15 +605,13 @@ def train_8_lines_comparativo_20211106_random_only_2388():
 def train_8_lines_comparativo_20211106_random_only_2388_incr():
     lens = [1, 2, 4, 6, 8, 10, 12, 14, 15, 16]
     # lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-random-only-2388.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_random_only_2388_incr_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -680,11 +631,10 @@ def train_8_lines_comparativo_20211106_handwritten_teacher():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_teacher_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -704,11 +654,10 @@ def train_8_lines_comparativo_20211106_handwritten_teacher__2():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_teacher_2_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_---8linhas-handwritten--5k')
@@ -727,15 +676,13 @@ def train_8_lines_comparativo_20211106_handwritten_teacher__2():
 def train_8_lines_comparativo_20211106_curriculum_etapa6():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-6-5500.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_curriculum_4_etapa_6_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_curriculum_4_--curriculum-8-linhas--etapa-5')
@@ -756,15 +703,13 @@ def train_8_lines_comparativo_20211106_curriculum_etapa6():
 def train_8_lines_comparativo_20211106_random_1500parts_():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/dataset-v022-7k-shuffle-parts1500.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_random_parts1500_2388_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -781,15 +726,13 @@ def train_8_lines_comparativo_20211106_random_1500parts_():
 def train_8_lines_comparativo_20211106_random_1500parts_1000_():
     # lens = [1, 2, 4, 8, 12, 15, 16]
     lens = [16]
-    no_teach = True
     niveis = [
         TRAIN_FOLDER + '/dataset/dataset-v022-7k-shuffle-parts1500.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_random_parts1500_1000_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=no_teach)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -809,11 +752,10 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_10k_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--10k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_teacher_10k_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_---8linhas-handwritten--5k')
@@ -835,11 +777,11 @@ def train_8_lines_comparativo_20211106_handwritten_5k_2_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_5k_cont-1_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=True)
+    config.TEACHER_FORCING = False
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_---8linhas-handwritten--5k')
@@ -860,7 +802,6 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_tam_menor():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     #
     # Este teste é rodado com tamanho menor informado em config.py!!!
@@ -868,7 +809,7 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_tam_menor():
     train_name = "train_comparativo_20211106_handwritten_teacher_tam_menor"
 
     config.force_size_mode(2)
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -887,12 +828,12 @@ def train_8_lines_comparativo_20211106_handwritten_tam_menor():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     config.force_size_mode(2)
     train_name = "train_comparativo_20211106_handwritten_tam_menor_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=True)
+    config.TEACHER_FORCING = False
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -911,12 +852,12 @@ def train_8_lines_comparativo_20211106_random_tam_menor():
     niveis = [
         TRAIN_FOLDER + '/dataset/curriculum-8-linhas--etapa-1.zip',
     ]
-    NUM_LINES = 8
 
     config.force_size_mode(2)
     train_name = "train_comparativo_20211106_random_tam_menor_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=True)
+    config.TEACHER_FORCING = False
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -936,11 +877,10 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_10k_cont_2_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--10k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_teacher_10k_3_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')
@@ -962,11 +902,10 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_10k_cont_hebraica_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k--with-hebraica-.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_comparativo_20211106_handwritten_teacher_10k_ref-hebraica_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')
@@ -986,10 +925,9 @@ def train_8_lines_comparativo_20211106_handwritten_teacher_10k_500epoch():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--10k.zip',
     ]
-    NUM_LINES = 8
     train_name = "train_comparativo_20211106_handwritten_teacher_10k_500epoch_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')

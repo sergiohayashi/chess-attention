@@ -45,4 +45,4 @@ class FiltraUnknown:
 
 if __name__ == "__main__":
     FiltraUnknown().fix(
-        'C:\mestrado/repos-github/chess-attention/train-folder/tmp/-8linhas-handwritten-only-2388-nounknown')
+        'C:\mestrado/repos-github/chess-attention/train-folder/tmp/-8linhas-handwritten--10k--v20220408--nounk')

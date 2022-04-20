@@ -11,10 +11,9 @@ def train_():
     niveis = [
         TRAIN_FOLDER + '/dataset/sequencias-reais-8linhas--100K-.zip',
     ]
-    NUM_LINES = 8
     train_name = "train_20220404_icpr2022_100k_plus50k_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')
@@ -35,10 +34,9 @@ def train_10K_2Kshuffle():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--10k-shuffle-2k.zip',
     ]
-    NUM_LINES = 8
     train_name = "train_20220404_icpr2022_10K_plus2Kshuffle-try3-"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')
@@ -60,11 +58,10 @@ def train_icpf22_handwritten_5k_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_20220405_icpr22_handwritten_5k_try2_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=16)
     model.trainOrContinueForCurriculum(train_name,
@@ -81,12 +78,11 @@ def train_icpf22_handwritten_5k_att100_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_20220405_icpr22_handwritten_5k_att100_try4_"
     config.force_size_mode(1)
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.initTrainSession(BATCH_SIZE=4)
     model.trainOrContinueForCurriculum(train_name,
@@ -103,12 +99,11 @@ def train_icpf22_handwritten_5k_att100_part2():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
     train_name = "train_20220405_icpr22_handwritten_5k_att100_part_2"
     config.force_size_mode(1)
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName(
@@ -130,9 +125,8 @@ def train_icpf22_handwritten_100K_ref_5k_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_20220404_icpr2022_100k_plus50k_')
@@ -152,9 +146,8 @@ def train_icpf22_handwritten_100K_ref_5k_part2_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_icpf22_handwritten_100K_ref_5k_try2_')
@@ -174,9 +167,8 @@ def train_icpf22_handwritten_100K_ref_5k_part3_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_icpf22_handwritten_100K_ref_5k_part2_')
@@ -196,9 +188,8 @@ def train_icpf22_handwritten_100K_ref_5k_part4_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_icpf22_handwritten_100K_ref_5k_part3_')
@@ -218,9 +209,8 @@ def train_icpf22_handwritten_100K_ref_5k_part5_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_icpf22_handwritten_100K_ref_5k_part4_')
@@ -240,9 +230,8 @@ def train_icpf22_handwritten_100K_ref_5k_part6_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_icpf22_handwritten_100K_ref_5k_part5_')

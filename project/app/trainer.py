@@ -152,7 +152,7 @@ class TrainerController:
                 acc16 = test_acc[0][0][-1]
                 print('test_acc= ', acc16)
 
-                if acc16 > best_acc16 + config.SAVE_INCREMENT: # 0.005:
+                if acc16 > best_acc16 + config.SAVE_INCREMENT:  # 0.005:
                     print('NEW BEST {}. Save'.format(acc16))
                     best_acc16 = acc16
                     if saver:
@@ -197,11 +197,14 @@ class TrainerController:
             # target reached?
             #
             if loss_target > 0 and train_loss <= loss_target:
-                print("Target loss reached! stop!", ' len= ', train_length)
+                print("Target loss reached! stop! len= {}, target_loss={}, train_loss={}".format(train_length,
+                                                                                                 loss_target,
+                                                                                                 train_loss))
                 return True
 
             if 0 < target_acc <= train_acc:
-                print("Target acc reached! stop!", ' len= ', train_length)
+                print("Target acc reached! stop! len= {}, target_acc={}, train_acc={}".format(train_length, target_acc,
+                                                                                              train_acc))
                 return True
 
             if stop_requested():
@@ -250,8 +253,11 @@ class DataHelper:
             print("SAMPLED!!  size= ", len(image_files), len(labels))
 
         label_indexes = tokenizer.texts_to_sequences(labels)
-        for i in range(0, 3):
-            print(labels[i], '=>', label_indexes[i])
+        print("incluso em sample[0]= ", image_files[0])
+        for f in image_files:
+            if 'carnaval' in f or 'scan' in f:
+                print("incluso em sample(carnaval,scan)= ", f)
+                break
 
         return image_files, label_indexes, labels
 

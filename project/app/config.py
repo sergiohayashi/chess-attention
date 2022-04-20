@@ -7,6 +7,8 @@ VOCAB_FOLDER = os.path.join(ROOT_DIR, 'vocab')
 USE_BIG_PLOT = False
 
 STOP_FILE = os.path.join(ROOT_DIR, 'stop')
+if os.path.exists(STOP_FILE):
+    os.remove(STOP_FILE)
 print('Para parar o treinamento, criar o arquivo ', STOP_FILE)
 
 predefined_size_modes = [
@@ -41,4 +43,7 @@ LEARNING_RATE = 0.0005
 
 # image, attention_plot, ATTENTION_SHAPE
 PLOT_UNIFIED = False
+
+TEACHER_FORCING = True
+
 

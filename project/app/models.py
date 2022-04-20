@@ -188,8 +188,6 @@ class RNN_Decoder(tf.keras.Model):
 
 class AttentionEncoderDecoderModel:
     def __init__(self,
-                 NUM_LINHAS=2,
-                 NO_TEACH=True,
                  ):
 
         self.ATTENTION_SHAPE = config.size_mode["attention_shape"]
@@ -200,7 +198,6 @@ class AttentionEncoderDecoderModel:
         self.EMBEDDING_DIM = 256
         self.UNITS = 512
         self.LEARNING_RATE = config.LEARNING_RATE
-        self.NO_TEACH = NO_TEACH
         self.FREEZE_ENCODER = False
         self.TRAIN_LENGTH = 16
         # self = Config()
@@ -225,10 +222,10 @@ class AttentionEncoderDecoderModel:
         # ver o tamanho do output
         new_input = self.image_model.input
         # hidden_layer = self.image_model.layers[-2].output
-        hidden_layer = self.image_model.layers[ config.size_mode['vgg_layer']].output
+        hidden_layer = self.image_model.layers[config.size_mode['vgg_layer']].output
         print("Shape da imagem ao final da CNN: ", hidden_layer.shape)
-        if (hidden_layer.shape[1], hidden_layer.shape[2]) != (self.ATTENTION_SHAPE[0],self.ATTENTION_SHAPE[1]):
-            raise Exception( 'shape do VGG {} diferente do shape da attention {}'.format(
+        if (hidden_layer.shape[1], hidden_layer.shape[2]) != (self.ATTENTION_SHAPE[0], self.ATTENTION_SHAPE[1]):
+            raise Exception('shape do VGG {} diferente do shape da attention {}'.format(
                 (hidden_layer.shape[1], hidden_layer.shape[2]),
                 (self.ATTENTION_SHAPE[0], self.ATTENTION_SHAPE[1])))
         self.image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
@@ -325,7 +322,8 @@ class Steps:
 
         features = self.model.encoder(img_tensor_val)
 
-        dec_input = tf.expand_dims([0 if self.model.NO_TEACH else self.model.tokenizer.word_index['<start>']], 0)
+        dec_input = tf.expand_dims(
+            [0 if not config.TEACHER_FORCING else self.model.tokenizer.word_index['<start>']], 0)
         result = []
         # result_top5 = []
 
@@ -340,7 +338,7 @@ class Steps:
 
             # predicted_id_top5= tf.math.top_k( predictions, 10)[1][0].numpy()
             # result_top5.append( [tokenizer.index_word[id] for id in predicted_id_top5])
-            dec_input = tf.expand_dims([0 if self.model.NO_TEACH else predicted_id], 0)
+            dec_input = tf.expand_dims([0 if not config.TEACHER_FORCING else predicted_id], 0)
 
         attention_plot = attention_plot[:len(result), :]
         return result, attention_plot, None
@@ -355,7 +353,7 @@ class Steps:
         hidden = self.model.decoder.reset_state(batch_size=target.shape[0])
 
         dec_input = tf.expand_dims(
-            zeros if self.model.NO_TEACH else [self.model.tokenizer.word_index['<start>']] * target.shape[0], 1)
+            zeros if not config.TEACHER_FORCING else [self.model.tokenizer.word_index['<start>']] * target.shape[0], 1)
 
         with tf.GradientTape() as tape:
             features = self.model.encoder(img_tensor)
@@ -370,7 +368,7 @@ class Steps:
                 loss += self.model.loss_function(target[:, i], predictions)
                 self.train_acc_metric.update_state(target[:, i], predictions)
 
-                dec_input = tf.expand_dims(zeros if self.model.NO_TEACH else target[:, i], 1)
+                dec_input = tf.expand_dims(zeros if not config.TEACHER_FORCING else target[:, i], 1)
 
         total_loss = (loss / int(train_length))
 
@@ -391,7 +389,7 @@ class Steps:
 
         hidden = self.model.decoder.reset_state(batch_size=target.shape[0])
         dec_input = tf.expand_dims(
-            zeros if self.model.NO_TEACH else [self.model.tokenizer.word_index['<start>']] * target.shape[0], 1)
+            zeros if not config.TEACHER_FORCING else [self.model.tokenizer.word_index['<start>']] * target.shape[0], 1)
         features = self.model.encoder(img_tensor)
 
         for i in range(1, train_length + 1):
@@ -400,7 +398,7 @@ class Steps:
             loss += self.model.loss_function(target[:, i], predictions)
             self.valid_acc_metric.update_state(target[:, i], predictions)
 
-            dec_input = tf.expand_dims(zeros if self.model.NO_TEACH else target[:, i], 1)
+            dec_input = tf.expand_dims(zeros if not config.TEACHER_FORCING else target[:, i], 1)
 
         total_loss = (loss / int(train_length))
         return loss, total_loss
@@ -413,7 +411,7 @@ class TokenizerBuilder:
 
     @staticmethod
     def build_tokenizer():
-        with open(VOCAB_FOLDER+'/all-labels-shuffle.pgn') as file:
+        with open(VOCAB_FOLDER + '/all-labels-shuffle.pgn') as file:
             labels = [line.strip() for line in file]
         labels = ['<start> ' + label + ' <end>' for label in labels]
 

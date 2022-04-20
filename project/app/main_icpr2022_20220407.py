@@ -14,7 +14,7 @@ def train_():
     NUM_LINES = 8
     train_name = "train_20220407_icpr2022_ref70k_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_comparativo_20211106_handwritten_teacher_10k_')
@@ -38,7 +38,7 @@ def train_part2_():
     NUM_LINES = 8
     train_name = "train_20220407_icpr2022_ref70k_part_2_try_2_"
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_ref70k_')
@@ -60,9 +60,8 @@ def train_20220407_icpr2022_70k_ref_5k_part1():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_20220407_icpr2022_ref70k_part_2_try_2_--sequencias-reais-8linhas--70K-_best')
@@ -82,9 +81,8 @@ def train_20220407_icpr2022_70k_ref_hand2k_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2388.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_20220407_icpr2022_70k_ref_5k_part1_try2---8linhas-handwritten--5k_best')
@@ -104,11 +102,10 @@ def train_20220407_icpr2022_70k_ref_hand2k_refTorneios_try2_():
     niveis = [
         TRAIN_FOLDER + '/dataset/torneios-except-test--only.zip',
     ]
-    NUM_LINES = 8
 
     config.LEARNING_RATE = 0.0001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_20220407_icpr2022_70k_ref_hand2k_---8linhas-handwritten-only-2388_best')
@@ -128,11 +125,10 @@ def train_20220407_icpr2022_70k_ref_hand2k_refTorneios_part2_():
     niveis = [
         TRAIN_FOLDER + '/dataset/torneios-except-test--only.zip',
     ]
-    NUM_LINES = 8
 
     config.LEARNING_RATE = 0.0001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName(
@@ -155,9 +151,8 @@ def train_20220407_icpr2022_70k_ref_10k_part1():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten--10k--v20220408-.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
 
     model.restoreFromCheckpointName('train_20220407_icpr2022_ref70k_part_2_try_2_--sequencias-reais-8linhas--70K-_best')
@@ -177,9 +172,8 @@ def train_20220407_icpr2022_70k_ref_10k_70K_():
     niveis = [
         TRAIN_FOLDER + '/dataset/sequencias-reais-8linhas--70K-.zip',
     ]
-    NUM_LINES = 8
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_part1---8linhas-handwritten--10k--v20220408-_best')
@@ -200,10 +194,9 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_try2():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2388.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.0001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_part1---8linhas-handwritten--10k--v20220408-_best')
@@ -224,10 +217,9 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_1():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2388.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.00001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_ref_2k_try2---8linhas-handwritten-only-2388_best')
@@ -250,10 +242,9 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_2():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2388.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.00001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_1---8linhas-handwritten-only-2388_best')
@@ -274,10 +265,9 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_torneio_():
     niveis = [
         TRAIN_FOLDER + '/dataset/torneios-except-test--only.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.000001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_1---8linhas-handwritten-only-2388_best')
@@ -298,10 +288,9 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_():
     niveis = [
         TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2292-nounknown.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.0001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
         'train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_1---8linhas-handwritten-only-2388_best')
@@ -317,30 +306,97 @@ def train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_():
                                        )
 
 
-def train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_pt2_():
+def train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_5k_():
     lens = [16]
     niveis = [
-        TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2292-nounknown.zip',
+        TRAIN_FOLDER + '/dataset/-8linhas-handwritten--5k--v20220412-nounk.zip',
     ]
-    NUM_LINES = 8
     config.LEARNING_RATE = 0.0001
 
-    model = ModelTrainController(NUM_LINHAS=NUM_LINES, NO_TEACH=False)
+    model = ModelTrainController()
     model.load()
     model.restoreFromCheckpointName(
-        'train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_---8linhas-handwritten-only-2292-nounknown_best')
+        'train_20220407_icpr2022_70k_ref_10k_ref_2k_part2_1---8linhas-handwritten-only-2388_best')
     print('acc em teste, antes do treinamento', model.evaluateForTest('test-8lines', _len=16))
 
     model.initTrainSession(BATCH_SIZE=16)
-    model.trainOrContinueForCurriculum('train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_pt2_',
+    model.trainOrContinueForCurriculum('train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_5k_',
                                        niveis, 0.0, 1.0,  # target_loss, target_acc
-                                       (1, 50),  # min_max_epoch
+                                       (1, 30),  # min_max_epoch
                                        sampled=False,
                                        lens=lens,
                                        test_set='test-8lines'
                                        )
 
 
+def train_20220407_icpr2022_70k_ref_2k_():
+    lens = [16]
+    niveis = [
+        TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2292-nounknown.zip',
+    ]
+    config.LEARNING_RATE = 0.0001
+
+    model = ModelTrainController()
+    model.load()
+
+    model.restoreFromCheckpointName('train_20220407_icpr2022_ref70k_part_2_try_2_--sequencias-reais-8linhas--70K-_best')
+    print('acc em teste, antes do treinamento', model.evaluateForTest('test-8lines', _len=16))
+
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum("train_20220407_icpr2022_70k_ref_2k_",
+                                       niveis, 0.00001, 1.99999,
+                                       (1, 500),
+                                       lens=lens,
+                                       test_set='test-8lines'
+                                       )
+
+
+def train_20220407_icpr2022_70k_ref_2k_part2():
+    lens = [16]
+    niveis = [
+        TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2292-nounknown.zip',
+    ]
+    config.LEARNING_RATE = 0.0001
+
+    model = ModelTrainController()
+    model.load()
+
+    model.restoreFromCheckpointName(
+        'train_20220407_icpr2022_70k_ref_2k_---8linhas-handwritten-only-2292-nounknown_best')
+    print('acc em teste, antes do treinamento', model.evaluateForTest('test-8lines', _len=16))
+
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum("train_20220407_icpr2022_70k_ref_2k_part2",
+                                       niveis, 0.0, 1.0,
+                                       (1, 200),
+                                       lens=lens,
+                                       test_set='test-8lines'
+                                       )
+
+
+def train_20220407_icpr2022_70k_ref_2k_part3():
+    lens = [16]
+    niveis = [
+        TRAIN_FOLDER + '/dataset/-8linhas-handwritten-only-2292-nounknown.zip',
+    ]
+    config.LEARNING_RATE = 0.0001
+
+    model = ModelTrainController()
+    model.load()
+
+    model.restoreFromCheckpointName(
+        'train_20220407_icpr2022_70k_ref_2k_part2---8linhas-handwritten-only-2292-nounknown_best')
+    print('acc em teste, antes do treinamento', model.evaluateForTest('test-8lines', _len=16))
+
+    model.initTrainSession(BATCH_SIZE=16)
+    model.trainOrContinueForCurriculum("train_20220407_icpr2022_70k_ref_2k_part3",
+                                       niveis, 0.0, 1.0,
+                                       (1, 200),
+                                       lens=lens,
+                                       test_set='test-8lines'
+                                       )
+
+
 if __name__ == '__main__':
-    train_20220407_icpr2022_70k_ref_10k_ref_2k_5k_2292_pt2_()
+    train_20220407_icpr2022_70k_ref_2k_part3()
     print('done!')

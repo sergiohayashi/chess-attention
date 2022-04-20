@@ -60,13 +60,40 @@ class Plotter:
             Plotter.print_result(expected, result)
 
     @staticmethod
+    def mask_for(shape, seq):
+        ln = seq // 2
+        col = seq % 2
+        m = np.zeros(shape)
+        for i in range(int(ln * shape[0] / 8), int((ln + 1) * shape[0] / 8)):
+            for j in range(int(col * shape[1] / 2), int((col + 1) * shape[1] / 2)):
+                m[i, j] = 1
+        return m
+
+    @staticmethod
+    def plot_attention_unified_masked(image, result, attention_plot, expected=None):
+        temp_image = np.array(Image.open(image))
+        masked_attention_plot = np.zeros(attention_plot.shape)
+        for seq in range(0, len(result)):
+            masked_attention_plot[seq] = Plotter.mask_for(config.size_mode['attention_shape'], seq)\
+                              .reshape((-1,)) * attention_plot[seq]
+
+        temp_att = np.resize(np.sum(masked_attention_plot, axis=0), config.size_mode['attention_shape'])
+        img = plt.imshow(temp_image)
+        plt.imshow(temp_att, cmap='bone', alpha=0.6, extent=img.get_extent())
+
+        plt.tight_layout()
+        plt.show()
+        if expected is not None:
+            Plotter.print_result(expected, result)
+
+    @staticmethod
     def print_result(expected, result):
         print(colored('Expected:  ', attrs=['bold']), end=' ')
-        for i in range(0, len(expected)):
+        for i in range(0, len(result)):
             print(expected[i], end=' ')
         print()
         print(colored('Predicted: ', attrs=['bold']), end=' ')
-        for i in range(0, len(expected)):
+        for i in range(0, len(result)):
             if expected[i] != result[i]:
                 for c in result[i]:
                     if c not in expected[i]:

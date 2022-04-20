@@ -117,6 +117,8 @@ class Evaluator:
                 print('len:', maxlen, 'acc:', r['acc'], 'cer', r['cer'], 'file: ', r['file'])
                 if config.PLOT_UNIFIED:
                     Plotter.plot_attention_unified(r['file'], r['prediction'], r['attention'], r['label'])
+                    Plotter.plot_attention_unified_masked(r['file'], r['prediction'], r['attention'], r['label'])
+                    self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
                 else:
                     self.plotter.plot_attention(r['file'], r['prediction'], r['attention'], r['label'])
 
